@@ -483,8 +483,8 @@ class Product extends Base
         }
         
          //$where['p.uid'] = $this->admin_id;
-        
-        $painfo = Db::name('product_apply')->where('id',$id)->where('reply_uid',$this->admin_id)->find();
+        //$painfo = Db::name('product_apply')->where('id',$id)->where('reply_uid',$this->admin_id)->find();
+        $painfo = Db::name('product_apply')->where('id',$id)->find();
        
         if($painfo){
             $where['p.id'] = $painfo['product_id'];
