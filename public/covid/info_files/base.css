@@ -1,0 +1,148 @@
+@charset "UTF-8";
+/*清除默认样式 */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+pre,
+form,
+fieldset,
+legend,
+button,
+input,
+textarea,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+body,
+h1,
+div,
+li,
+a,
+button,
+input,
+select,
+textarea {
+  font-family: arial;
+  font-size: 14px;
+  color: #333;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+summary,
+time,
+audio,
+video {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+ul,
+ol {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a:hover {
+  text-decoration: none;
+}
+p,
+span {
+  color: inherit;
+}
+table {
+  border-collapse: collapse;
+}
+input,
+textarea {
+  outline: none;
+  border: none;
+}
+input {
+  border: none;
+  appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  -webkit-appearance: none;
+}
+:-moz-placeholder,
+::-moz-placeholder,
+input:-ms-input-placeholder,
+input::-webkit-input-placeholder {
+  color: inherit;
+  opacity: 0.55;
+  font-size: 14px;
+}
+textarea {
+  resize: none;
+  overflow: auto;
+}
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset;
+}
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+}
+img {
+  max-width: 100%;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+input,
+textarea,
+select {
+  outline: none;
+}
+a,
+a:hover {
+  text-decoration: none;
+  outline: none;
+}
+ul li {
+  list-style-type: none;
+}
+img {
+  border: none;
+}
+.bd_weixin_popup {
+  box-sizing: content-box;
+}

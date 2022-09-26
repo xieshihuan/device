@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)https://coretests.com/ -->
+<html lang="en">
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+    <meta name="author" content="www.vancheer.com">
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=0, maximum-scale=0, user-scalable=yes, shrink-to-fit=no"> -->
+    <meta name="format-detection" content="telephone=no">
+    <!-- <link rel="icon" href="https://coretests.com/vancheerfile/Images/" type="image/x-icon"> -->
+	<meta name="Keywords" content="Coretests"><meta name="Description" content="Coretests">
+	<title>Coretests</title>
+    <link rel="stylesheet" type="text/css" href="./info_files/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="./info_files/base.css">
+    <link rel="stylesheet" type="text/css" href="./info_files/animate.css">
+    <link rel="stylesheet" type="text/css" href="./info_files/page.css">
+    <link rel="stylesheet" type="text/css" href="./info_files/media.css">
+	<link rel="stylesheet" type="text/css" href="./info_files/jie.css">
+	<link id="layuicss-laydate" rel="stylesheet" href="./info_files/laydate.css" media="all"><link id="layuicss-layer" rel="stylesheet" href="./info_files/layer.css" media="all"><link id="layuicss-skincodecss" rel="stylesheet" href="./info_files/code.css" media="all"></head>
+	<style rel="stylesheet">
+		.main_box{
+			position: relative;
+		}
+		.top_banner{
+			width: 100%;
+		}
+		.top_banner img{
+			width: 100%;
+			height: auto;
+		}
+		/*区域1*/
+		.box_1{
+			display: flex;
+			width: 1200px;
+			position: relative;
+			margin: 0 auto;
+			padding-top: 72px;
+		}
+		.box_1 .left{
+			width: 695px;
+		}
+		.box_1 .left .left_tit{
+			padding-bottom: 18px;
+			font-weight: bold;
+			font-size: 22px;
+			color: #333333;
+		}
+		.box_1 .left .left_txt{
+			font-size: 16px;
+			color: #333333;
+			line-height: 2;
+		}
+		.box_1 .right{
+			flex: 1;
+			position: absolute;
+			right: 0;
+		}
+		.box_1 .right .btn_el{
+			width: 335px;
+			height: 50px;
+			position: relative;
+			line-height: 50px;
+			padding: 0 25px 0 20px;
+			text-align: left;
+			color: #A50075;
+			font-size: 18px;
+			font-weight: bold;
+			border: 1px solid #A50075;
+			border-radius: 149px;
+			margin-bottom: 12px;
+			cursor: pointer;
+		}
+		.box_1 .right .btn_el:hover{
+			background-color: #A50075;
+			color: #ffffff;
+		}
+		.box_1 .right .btn_el:hover .triangle{
+			border-top: 8px solid #A50075;
+			border-bottom: 8px solid #A50075;
+			border-left: 8px solid white;
+			border-right: 8px solid #A50075;
+		}
+		.box_1 .right .triangle{
+			position: absolute;
+			top: 15px;
+			right: 20px;
+			width: 0;
+			height: 0;
+			border-top: 8px solid white;
+			border-bottom: 8px solid white;
+			border-left: 8px solid #A50075;
+			border-right: 8px solid white;
+		}
+		/*区域2*/
+		.box_2{
+			padding-top: 140px;
+			position: relative;
+		}
+		.box_2 .box2_bg{
+			position: absolute;
+			width: 100%;
+			height: 251px;
+			background-color: #A50075;
+			opacity: 0.1;
+			bottom: 0;
+			z-index: -1;
+		}
+		.box_2 .box2_tit{
+			width: 1200px;
+			margin: 0 auto;
+			padding-bottom: 55px;
+			font-size: 22px;
+			color: #333333;
+			font-weight: bold;
+		}
+		.box_2 .box2_swiper{
+			width: 1200px;
+			margin: 0 auto;
+		    overflow: hidden;
+		}
+		.box_2 .box2_swiper .swiper-wrapper .swiper-slide {
+		    width: 650px;
+		    border-radius: 2px;
+			padding: 20px 0;
+		}
+		.box_2 .box2_swiper .swiper-wrapper .swiper-slide img{
+			width: 100%;
+			height: 100%;
+			border-radius: 2px;
+			box-shadow: 0 0 20px rgb(0, 0, 0, 0.1);
+			cursor: pointer;
+		}
+		.box_2 .box2_swiper-pagination{
+			text-align: center;
+		}
+		.box_2 .box2_swiper-pagination .swiper-pagination-bullet{
+			width: 28px;
+			height: 28px;
+			line-height: 28px;
+			background-color: #ffffff;
+			color: #A50075;
+			opacity: 1;
+			margin: 20px 10px;
+			border: 1px solid #A50075;
+		}
+		.swiper-pagination-bullet-active{
+			background-color: #A50075 !important;
+			color: #ffffff !important;
+		}
+		/*区域3*/
+		.box_3{
+			width: 1200px;
+			margin: 0 auto;
+			padding-top: 140px;
+		}
+		.box_3 .box_3_tit{
+			font-size: 22px;
+			font-weight: bold;
+			color: #333333;
+		}
+		.box_3 .box_3_main{
+			display: flex;
+			padding-top: 50px;
+		}
+		.box_3 .box_3_main .box_3_main_el{
+			flex: 1;
+			text-align: center;
+			margin: 0 10px;
+		}
+		.box_3_main_el .img_box{
+			width: 100%;
+			margin-bottom: 40px;
+			padding: 0 20px;
+		}
+		.box_3_main_el .box_3_tit div{
+			text-align: left;
+			font-size: 16px !important;
+			line-height: 1.8;
+			font-weight: normal;
+			color: #333333;
+		}
+		/*区域4*/
+		.box_4{
+			width: 1200px;
+			margin: 0 auto;
+			padding-top: 140px;
+		}
+		.box_4 .box_4_tit{
+			font-size: 22px;
+			font-weight: bold;
+			color: #333333;
+		}
+		.box_4 .box_4_list{
+			overflow: hidden;
+			margin: 32px 0 46px 0;
+		}
+		.box_4 .box_4_list li{
+			float: left;
+			margin-right: 70px;
+			font-size: 16px;
+			color: #333333;
+			cursor: pointer;
+		}
+		.box_4 .box_4_list li .circle{
+			display: inline-block;
+			width: 6px;
+			height: 6px;
+			margin-right: 8px;
+			position: relative;
+			top: -2px;
+			border-radius: 50%;
+			background-color: #A50075;
+		}
+		.box_4 .video_box{
+			width: 100%;
+		}
+		.box_4 .video_box video{
+			width: 100%;
+			height: auto;
+		}
+		/*区域5*/
+		.box_5{
+			width: 1200px;
+			margin: 0 auto;
+			padding-top: 140px;
+		}
+		.box_5 .box_5_tit{
+			font-size: 22px;
+			font-weight: bold;
+			color: #333333;
+			padding-bottom: 65px;
+		}
+		.box_5 .ques_main{}
+		.ques_el{
+			padding-bottom: 60px;
+		}
+		.ques_el .ques_el_tit{
+			position: relative;
+			cursor: pointer;
+		}
+		.ques_el .ques_el_tit .left{
+			font-size: 18px;
+			color: #333333;
+		}
+		.ques_el .ques_el_tit .right{
+			position: absolute;
+			top: 2px;
+			right: 0px;
+			width: 0;
+			height: 0;
+			border-top: 8px solid white;
+			border-bottom: 8px solid white;
+			border-left: 8px solid #999999;
+			border-right: 8px solid white;
+		}
+		.ques_el .ques_txt{
+			padding-top: 28px;
+			padding-bottom: 28px;
+			border-bottom: 1px solid rgb(112, 112, 112, 0.1);
+			line-height: 2;
+			font-size: 16px;
+			color: #333333;
+		}
+		.ques_el .ques_txt div{
+			font-size: 16px;
+			color: #333333;
+		}
+		.quesActived .left{
+			color: #A50075 !important;
+		}
+		.quesActived .ques_el_tit .right{
+			border-top: 8px solid #A50075;
+			border-left: 8px solid white;
+		}
+		/*区域6*/
+		.box_6{
+			width: 1200px;
+			margin: 0 auto;
+			padding-top: 80px;
+			padding-bottom: 148px;
+		}
+		.box_6 .box_6_tit{
+			font-size: 22px;
+			font-weight: bold;
+			color: #333333;
+			padding-bottom: 136px;
+		}
+		.box_6 .box_6_main{
+			display: flex;
+			padding-left: 100px;
+		}
+		.box_6 .box_6_main .box_6_main_left{}
+		.box_6_main_left img{
+			width: 650px;
+		}
+		.box_6 .box_6_main .box_6_main_right{
+			flex: 1;
+			text-align: center;
+		}
+		.box_6_main .box_6_main_right ul{
+			padding-left: 160px;
+			text-align: left;
+		}
+		.box_6_main .box_6_main_right li{
+			padding: 28px 0;
+			font-size: 16px;
+			color: #333333;
+		}
+		.box_6_main_right li span{
+			display: inline-block;
+			width: 6px;
+			height: 6px;
+			margin-right: 8px;
+			position: relative;
+			top: -2px;
+			border-radius: 50%;
+			background-color: #A50075;
+		}
+		/*移动样式*/
+		@media screen and (max-width: 1200px) {
+			.main_box{
+				overflow: hidden;
+			}
+			.box_1{
+				display: inline-block;
+				width: 100%;
+				padding: 50px 20px 0 20px;
+			}
+			.box_1 .left{
+				width: 100%;
+			}
+			.box_1 .right{
+				position: relative;
+				top: 50px;
+			}
+			.box_2{
+				
+			}
+			.box_2 .box2_tit{
+				width: 100%;
+				padding-left: 20px;
+			}
+			.box_2 .box2_swiper{
+				width: 100%;
+			}
+			.box_2 .box2_swiper .swiper-wrapper .swiper-slide{
+				width: 100%;
+				padding-bottom: 5px;
+			}
+			.box_2 .box2_swiper-pagination .swiper-pagination-bullet{
+				margin: 10px 10px 15px 10px;
+			}
+			.box_3{
+				width: 100%;
+				padding: 80px 20px 0 20px;
+			}
+			.box_3 .box_3_main{
+				display: inline-block;
+			}
+			.box_3_main_el .img_box{
+				margin-bottom: 20px;
+			}
+			.box_3 .box_3_main .box_3_main_el{
+				margin: 0;
+				padding-bottom: 40px;
+			}
+			.box_3_main_el .box_3_tit div{
+				text-align: center;
+			}
+			.box_4{
+				width: 100%;
+				padding: 40px 20px 0 20px;
+			}
+			.box_4 .box_4_list li{
+				padding: 5px 0;
+			}
+			.box_5{
+				width: 100%;
+				padding: 80px 20px 0 20px;
+			}
+			.ques_el .ques_el_tit .left{
+				padding-right: 12px;
+			}
+			.box_6{
+				width: 100%;
+				padding: 20px 20px 50px 20px;
+			}
+			.box_6 .box_6_tit{
+				padding-bottom: 50px;
+			}
+			.box_6 .box_6_main{
+				display: inline-block;
+				padding-left: 0;
+				width: 100%;
+			}
+			.box_6 .box_6_main .box_6_main_left{
+				width: 100%;
+			}
+			.box_6_main_left img{
+				width: 100%;
+			}
+			.box_6_main .box_6_main_right ul{
+				padding-left: 0;
+			}
+			.box_6_main .box_6_main_right li{
+				padding: 12px 0;
+			}
+		}
+	</style>
+<body>
+
+<!-- header start -->
+<div class="box-container-fluid header-wrapper">
+	<div class="box-container">
+		<!-- logo -->
+		<div class="logo-box">
+			<a href="https://coretests.com/">
+				<img src="./info_files/20220630131956354.png" alt="Coretests">
+			</a>
+		</div>
+		<div class="pc-nav-box">
+			<ul>
+				<!-- 高亮li.on -->
+				<li><a href="https://coretests.com/">Home</a></li>
+				<li>
+					<a href="https://coretests.com/product/">Product Center</a>
+					<div class="child-box">
+						<div class="top">
+							<a href="javascript:;" class="on">Product Category</a>
+							<a href="javascript:;">Product Certifications</a>
+						</div>
+						<div class="detail mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar"><div id="mCSB_1" class="mCustomScrollBox mCS-dark mCSB_vertical mCSB_inside" tabindex="0" style="max-height: 388px;"><div id="mCSB_1_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+								<div class="item" style="display: block;">
+									<ul>
+										
+										<li><a href="https://coretests.com/product/index_100000000146634.html#form_box"><img src="./info_files/2022060900178496.png" alt="Fertility Test" class="mCS_img_loaded">Fertility Test</a></li>
+										
+										<li><a href="https://coretests.com/product/index_100000010781517.html#form_box"><img src="./info_files/20220609001731708.png" alt="Respiratory Infectious Diseases Test" class="mCS_img_loaded">Respiratory Infectious Diseases Test</a></li>
+										
+										<li><a href="https://coretests.com/product/index_100000010727761.html#form_box"><img src="./info_files/2022060917314982.png" alt="Infectious Diseases Test" class="mCS_img_loaded">Infectious Diseases Test</a></li>
+										
+										<li><a href="https://coretests.com/product/index_100000010762587.html#form_box"><img src="./info_files/2022060917314982.png" alt="Sexual Transmitted Diseases Test" class="mCS_img_loaded">Sexual Transmitted Diseases Test</a></li>
+										
+										<li><a href="https://coretests.com/product/index_100000011176945.html#form_box"><img src="./info_files/2022060900182745.png" alt="Cardiac Marker Test" class="mCS_img_loaded">Cardiac Marker Test</a></li>
+										
+										<li><a href="https://coretests.com/product/index_100000011136474.html#form_box"><img src="./info_files/20220609001819514.png" alt="Tumor MarkerTest" class="mCS_img_loaded">Tumor MarkerTest</a></li>
+										
+										<li><a href="https://coretests.com/product/index_100000011128625.html#form_box"><img src="./info_files/2022060900182745.png" alt="Drug of Abuse Test" class="mCS_img_loaded">Drug of Abuse Test</a></li>
+										
+										<li><a href="https://coretests.com/product/index_100000011158267.html#form_box"><img src="./info_files/20220609001839109.png" alt="Health Test" class="mCS_img_loaded">Health Test</a></li>
+										
+										<li><a href="https://coretests.com/product/index_100000011167624.html#form_box"><img src="./info_files/2022060900191225.png" alt="Blood Glucose Test" class="mCS_img_loaded">Blood Glucose Test</a></li>
+										
+									</ul>
+								</div>
+								<div class="item">
+									<ul>
+										<li><a href="https://coretests.com/product/index_100000010736467.html#form_box"><img src="./info_files/20220609002255115.png" alt="CE" class="mCS_img_loaded">CE</a></li>
+										
+										<li><a href="https://coretests.com/product/index_100000010763929.html#form_box"><img src="./info_files/20220609002255115.png" alt="FDA" class="mCS_img_loaded">FDA</a></li>
+										
+										<li><a href="https://coretests.com/product/index_100000010788171.html#form_box"><img src="./info_files/20220609002255115.png" alt="NMPA" class="mCS_img_loaded">NMPA</a></li>
+										
+									</ul>
+								</div>
+							</div><div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-dark mCSB_scrollTools_vertical" style="display: none;"><a href="https://coretests.com/#" class="mCSB_buttonUp" oncontextmenu="return false;"></a><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 0px; top: 0px; height: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="line-height: 0px;"></div><div class="mCSB_draggerRail"></div></div></div><a href="https://coretests.com/#" class="mCSB_buttonDown" oncontextmenu="return false;"></a></div></div></div>
+
+					</div>
+				</li>
+				<li>
+					<a href="https://coretests.com/news/">News</a>
+					<div class="navs">
+						<a href="https://coretests.com/news/index.html">Company News</a>
+						<a href="https://coretests.com/news/industry.html">Industry Information</a>
+					</div>
+				</li>
+				<li>
+					<a href="https://coretests.com/support/">Technical Support</a>
+					<div class="navs">
+						
+						
+						<a href="https://coretests.com/support/index.html">Product Knowledge</a>
+						
+					</div>
+				</li>
+				<li>
+					<a href="https://coretests.com/about/">About Us</a>
+					<div class="navs">
+						
+						<a href="https://coretests.com/about/index.html">About Us</a>
+						
+						<a href="https://coretests.com/about/honor.html">Honors and Certificates</a>
+						
+						<a href="https://coretests.com/about/message.html">Leave a message</a>
+						
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="other-box">
+			<div class="search" onclick="searchToggle()"></div>
+			<div class="language">
+				<div class="caption">CN</div>
+				<div class="list">
+					<a href="http://cn.coretests.com/" target="_blank">CN</a>
+					<a href="javascript:;">EN</a>
+				</div>
+			</div>
+			<!-- 导航菜单按钮 start-->
+			<div class="nav-icon" onclick="phoneNavToggle(this)"><span></span><span></span><span></span></div>
+			<!-- 导航菜单按钮 start-->
+		</div>
+	</div>
+</div>
+<!-- header end -->
+<div class="p_h"></div>
+<div class="search-form before" style="display: none;">
+	<div class="w1200">
+		<a href="javascript:;" onclick="search1()" class="search-btn"><img src="./info_files/search.png" alt=""></a>
+		<input type="text" class="keywords" placeholder="Please enter keywords" id="txtkeys1">
+		<a href="javascript:;" class="close" onclick="searchToggle()"></a>
+	</div>
+</div>
+<!-- 遮罩 -->
+<div class="mask"></div>
+<!-- 隐藏导航 start-->
+<div class="phone-nav" id="phone-nav">
+	<ul>
+		<!-- 高亮li.on -->
+		<li class="on"><a href="https://coretests.com/">Home</a></li>
+		<li>
+			<!-- 有二级栏目 a.cat -->
+			<a href="javascript:;" class="cat">Product Center</a>
+			<div class="navs">
+				<div class="item">
+					<a href="javascript:;">Product Category</a>
+					<div class="second">
+						
+						<a href="https://coretests.com/product/index_100000000146634.html">Fertility Test</a>
+						
+						<a href="https://coretests.com/product/index_100000010781517.html">Respiratory Infectious Diseases Test</a>
+						
+						<a href="https://coretests.com/product/index_100000010727761.html">Infectious Diseases Test</a>
+						
+						<a href="https://coretests.com/product/index_100000010762587.html">Sexual Transmitted Diseases Test</a>
+						
+						<a href="https://coretests.com/product/index_100000011176945.html">Cardiac Marker Test</a>
+						
+						<a href="https://coretests.com/product/index_100000011136474.html">Tumor MarkerTest</a>
+						
+						<a href="https://coretests.com/product/index_100000011128625.html">Drug of Abuse Test</a>
+						
+						<a href="https://coretests.com/product/index_100000011158267.html">Health Test</a>
+						
+						<a href="https://coretests.com/product/index_100000011167624.html">Blood Glucose Test</a>
+						
+					</div>
+				</div>
+				<div class="item">
+					<a href="javascript:;">Product Certifications</a>
+					<div class="second">
+						
+						<a href="https://coretests.com/product/index_100000010736467.html">CE</a>
+						
+						<a href="https://coretests.com/product/index_100000010763929.html">FDA</a>
+						
+						<a href="https://coretests.com/product/index_100000010788171.html">NMPA</a>
+						
+					</div>
+				</div>
+			</div>
+		</li>
+		<li>
+			<a href="javascript:;" class="cat">News</a>
+			<div class="navs">
+				
+				<a href="https://coretests.com/news/index.html">Company News</a>
+				
+				<a href="https://coretests.com/news/industry.html">Industry Information</a>
+				
+			</div>
+		</li>
+		<li>
+			<a href="javascript:;" class="cat">Technical Support</a>
+			<div class="navs">
+				
+				<a href="https://coretests.com/support/index.html">Product Knowledge</a>
+				
+			</div>
+		</li>
+		<li>
+			<a href="javascript:;" class="cat">About Us</a>
+			<div class="navs">
+				
+				<a href="https://coretests.com/about/index.html">About Us</a>
+				
+				<a href="https://coretests.com/about/honor.html">Honors and Certificates</a>
+				
+				<a href="https://coretests.com/about/message.html">Leave a message</a>
+				
+			</div>
+		</li>
+	</ul>
+	<div class="language">
+		<a href="http://cn.coretests.com/" target="_blank">CN</a>
+		<a href="javascript:;">EN</a>
+	</div>
+</div>
+<!-- 隐藏导航 end-->
+
+<div class="main_box">
+	<!--顶部banner-->
+	<div class="top_banner">
+		<div>
+			<img src="info_files/img/banner_1.png" />
+		</div>
+	</div>
+	<!--顶部banner-->
+	<!--box1-->
+	<div class="box_1">
+		<div class="left">
+			<div class="left_tit">Intended Use</div>
+			<div class="left_txt">
+				The Genabio COVID-19 Rapid Self-Test Kit is a rapid lateral flow immunoassay intended for the qualitative detection of nucleocapsid protein antigen from SARS-CoV-2. This test is authorized for non-prescription home use with self-collected anterior nasal (nares) swab samples from individuals aged 14 years or older, or adult-collected anterior nasal (nares) swab samples from individuals aged 2 years or older, with symptoms of COVID-19 within the first 7 days of symptom onset. 
+				 This test is also intended for non-prescription home use with self-collected anterior nasal (nares) swab samples from individuals aged 14 years or older, or adult-collected anterior nasal (nares) swab samples from individuals aged 2 years or older, with or without symptoms or other epidemiological reasons to suspect COVID-19 when tested twice over three days with at least 24 hours (and no more than 48 hours) between tests.
+			</div>
+		</div>
+		<div class="right">
+			<div class="btn_el" onclick="jump('JumpOne');">
+				What's in the Box?
+				<div class="triangle"></div>
+			</div>
+			<div class="btn_el" onclick="jump('JumpTwo');">
+				Additional Resources
+				<div class="triangle"></div>
+			</div>
+			<div class="btn_el" onclick="jump('JumpThree');">
+				Instruction for Use
+				<div class="triangle"></div>
+			</div>
+			<div class="btn_el" onclick="jump('JumpFour');">
+				Interpreting the Results
+				<div class="triangle"></div>
+			</div>
+			<div class="btn_el" onclick="jump('JumpFive');">
+				Frequently Asked Questions
+				<div class="triangle"></div>
+			</div>
+			<div class="btn_el" onclick="jump('JumpSix');">
+				Contact Us
+				<div class="triangle"></div>
+			</div>
+		</div>
+	</div>
+	<!--box1-->
+	
+	<!--box2-->
+	<div class="box_2" id="JumpThree">
+		<div class="box2_bg"></div>
+		<div class="box2_tit">Instruction for Use</div>
+		<div class="box2_swiper">
+			<div class="swiper">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide">
+						<img src="info_files/img/banner_01.png" />
+					</div>
+					<div class="swiper-slide">
+						<img src="info_files/img/banner_02.png" />
+					</div>
+					<div class="swiper-slide">
+						<img src="info_files/img/banner_03.png" />
+					</div>
+					<div class="swiper-slide">
+						<img src="info_files/img/banner_04.png" />
+					</div>
+					<div class="swiper-slide">
+						<img src="info_files/img/banner_05.png" />
+					</div>
+					<div class="swiper-slide">
+						<img src="info_files/img/banner_06.png" />
+					</div>
+					<div class="swiper-slide">
+						<img src="info_files/img/banner_07.png" />
+					</div>
+					<div class="swiper-slide">
+						<img src="info_files/img/banner_08.png" />
+					</div>
+					<div class="swiper-slide">
+						<img src="info_files/img/banner_09.png" />
+					</div>
+					<div class="swiper-slide">
+						<img src="info_files/img/banner_10.png" />
+					</div>
+					<div class="swiper-slide">
+						<img src="info_files/img/banner_11.png" />
+					</div>
+					<div class="swiper-slide">
+						<img src="info_files/img/banner_12.png" />
+					</div>
+				</div>
+				<div class="box2_swiper-pagination"></div>
+			</div>
+		</div>
+	</div>
+	<!--box2-->
+	
+	<!--box3-->
+	<div class="box_3" id="JumpFour">
+		<div class="box_3_tit">Interpreting the Results</div>
+		<div class="box_3_main">
+			<div class="box_3_main_el">
+				<div class="img_box">
+					<img src="info_files/img/icon_positive.png" />
+				</div>
+				<div class="box_3_tit">
+					<div>Control line(C line) and Test line(T line) both appear in the show window.</div>
+					<div style="color: #0992d9;">NOTE: Any faint line in the test line region (T) should be considered positive.</div>
+				</div>
+			</div>
+			<div class="box_3_main_el">
+				<div class="img_box">
+					<img src="info_files/img/icon_negative.png" />
+				</div>
+				<div class="box_3_tit">
+					<div>Only one line appears in Control area, no line appears in Test area.</div>
+				</div>
+			</div>
+			<div class="box_3_main_el">
+				<div class="img_box">
+					<img src="info_files/img/icon_invalid.png" />
+				</div>
+				<div class="box_3_tit">
+					<div>If no line appears in the control area, the test results are invalid regardless of the presence or absence of line in the test area. The direction may not been followed correctly or the test may be deteriorated.</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--box3-->
+	
+	<!--box4-->
+	<div class="box_4" id="JumpTwo">
+		<div class="box_4_tit">Additional Resources</div>
+		<ul class="box_4_list">
+			<li id="pdfOne"><span class="circle"></span>Quick Guide</li>
+			<li id="pdfTwo"><span class="circle"></span>Instruction for Use</li>
+			<li id="pdfThree"><span class="circle"></span>Healthcare Provider Fact Shee</li>
+		</ul>
+		<div class="video_box">
+			<video src="https://coretests.com/video.mp4" autoplay controls poster="info_files/img/videoimg.jpg"></video>
+		</div>
+	</div>
+	<!--box4-->
+	
+	<!--box5-->
+	<div class="box_5" id="JumpFive">
+		<div class="box_5_tit">Frequantly Asked Questions</div>
+		<div class="ques_main">
+			
+			<div class="ques_el">
+				<div class="ques_el_tit">
+					<div class="left">What is COVID-19?</div>
+					<div class="right"></div>
+				</div>
+				<div class="ques_txt" style="display: none;">
+					COVID-19 is an acute respiratory infectious disease caused by the SARS-CoV-2 virus, a novel Betacoronavirus. SARS-CoV-2 is mostly spread person-to-person, both by individuals with symptoms of COVID-19 infection and by infected people without symptoms. Based on the current knowledge, the incubation period is 1 to 14 days, mostly 4-5 days. Symptoms include fever, fatigue, and cough. For a full list of symptoms, see:
+					<div style="color: #0992d9;"><a href="https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/symptoms.html" target="_blank">https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/symptoms.html</a></div>
+				</div>
+			</div>
+			
+			<div class="ques_el">
+				<div class="ques_el_tit">
+					<div class="left">What are the known potential risks and benefits of this test?</div>
+					<div class="right"></div>
+				</div>
+				<div class="ques_txt" style="display: none;">
+					<div>Potential risks include:</div>
+					<div>• Possible discomfort during sample collection.</div>
+					<div>• Possible incorrect test results (see Result Interpretation section).</div>
+					<div>Potential benefits include:</div>
+					<div>• The results, along with other information, can help you and your healthcare provider make informed decisions about your care.</div>
+					<div>• The results of this test may help limit the spread of COVID-19 to your family and others in your community.</div>
+				</div>
+			</div>
+			
+			<div class="ques_el">
+				<div class="ques_el_tit">
+					<div class="left">Will this test hurt?</div>
+					<div class="right"></div>
+				</div>
+				<div class="ques_txt" style="display: none;">
+					No, the nasal swab is not sharp and it should not hurt. Sometimes the swab can feel slightly uncomfortable or tickly. If you feel pain, please stop the test and seek advice from a healthcare provider.
+				</div>
+			</div>
+			
+			<div class="ques_el">
+				<div class="ques_el_tit">
+					<div class="left">What is serial testing?</div>
+					<div class="right"></div>
+				</div>
+				<div class="ques_txt" style="display: none;">
+					Serial testing is when one person tests themselves multiple times for COVID-19 on a routine basis, such as every day or every other day. By testing more frequently, you may detect COVID-19 more quickly and reduce spread of infection. Serial testing (i.e., testing every day or every other day) is more likely to detect COVID-19. If you do not have any symptoms, testing should be performed at least twice over three days, with at least 24 hours and no more than 48 hours between tests. You may need to purchase additional tests to perform this serial (repeat) testing.
+				</div>
+			</div>
+			
+			<div class="ques_el">
+				<div class="ques_el_tit">
+					<div class="left">How accurate is this test?</div>
+					<div class="right"></div>
+				</div>
+				<div class="ques_txt" style="display: none;">
+					Based on the interim results of a clinical study where the COVID-19 Antigen Self-Test was compared to an FDA authorized high sensitivity SARS-CoV-2 test, COVID-19 Antigen Self-Test correctly identified 91.89% of positive specimens and 100% of negative specimens.
+					The performance of this test is still being studied in patients without signs and symptoms of respiratory infection and for serial screening. Performance may diﬀer in these populations. Based on this information, negative results may require additional testing to confirm your result. Please talk to your healthcare provider to determine if you need additional testing.
+				</div>
+			</div>
+			
+			<div class="ques_el">
+				<div class="ques_el_tit">
+					<div class="left">What if I have a positive test result?</div>
+					<div class="right"></div>
+				</div>
+				<div class="ques_txt" style="display: none;">
+					A positive result means that it is very likely you have COVID-19 because proteins from the virus that causes COVID-19 were found in your sample. You should self-isolate from others and contact a healthcare provider for medical advice about your positive result. Your healthcare provider will work with you to determine how best to care for you based on your test result, medical history, and symptoms.
+				</div>
+			</div>
+			
+			<div class="ques_el">
+				<div class="ques_el_tit">
+					<div class="left">What if I have a negative test result?</div>
+					<div class="right"></div>
+				</div>
+				<div class="ques_txt" style="display: none;">
+					A negative test result indicates that antigens from the virus that causes COVID-19 were not found in your sample. If you do not have symptoms, you should test again in 24 to 48 hours. If you receive a second negative result 24 to 48 hours after your ﬁrst negative result, then you are likely not infected with COVID-19. However, negative results do not rule out SARS-CoV-2 infection. It is possible for this test to give a negative result that is incorrect (false negative) in some people with COVID-19. This means that you could possibly still have COVID-19 even though the test is negative. For example, you may get a false negative result if you did not perform the test correctly or if the level of antigen from the virus causing COVID-19 was below the limit of detection. The amount of antigen in a sample may decrease the longer you have symptoms of infection. If you test negative and continue to experience symptoms of fever, cough and/or shortness of breath you should seek follow up care with your healthcare provider. Your healthcare provider will consider the test result together with all other aspects of your medical history (such as symptoms, possible exposures, and geographical location of places you have recently traveled) in deciding how to care for you. Your healthcare provider may suggest you need another test to determine if you have contracted the virus causing COVID-19. It is important that you work with your healthcare provider to help you understand the next steps you should take.
+				</div>
+			</div>
+			
+			<div class="ques_el">
+				<div class="ques_el_tit">
+					<div class="left">What does an invalid test result mean?</div>
+					<div class="right"></div>
+				</div>
+				<div class="ques_txt" style="display: none;">
+					If no control line shows up on the test, the result is invalid (even if any test line shows up). An invalid result means the test was not able to tell if you have COVID-19 or not. If the test is invalid, a new swab should be used to collect a new nasal specimen and the test should be run again, using all new test components.
+				</div>
+			</div>
+			
+			<div class="ques_el">
+				<div class="ques_el_tit">
+					<div class="left">What is the difference between an antigen and molecular test?</div>
+					<div class="right"></div>
+				</div>
+				<div class="ques_txt" style="display: none;">
+					If no control line shows up on the test, the result is invalid (even if any test line shows up). An invalid result means the test was not able to tell if you have COVID-19 or not. If the test is invalid, a new swab should be used to collect a new nasal specimen and the test should be run again, using all new test components.
+				</div>
+			</div>
+			
+			<div class="ques_el">
+				<div class="ques_el_tit">
+					<div class="left">Is there other information available describing the performance of this test?</div>
+					<div class="right"></div>
+				</div>
+				<div class="ques_txt" style="display: none;">
+					Yes. Please see the Healthcare Provider Instructions for Use available at www.genabio.com for additional information. The performance of this test is still being studied in patients without signs and symptoms of respiratory infection and for serial screening.
+					Performance may diﬀer in these populations.
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<!--box5-->
+	
+	<!--box6-->
+	<div class="box_6" id="JumpOne">
+		<div class="box_6_tit">What's In the Box?</div>
+		<div class="box_6_main">
+			<div class="box_6_main_left">
+				<img src="info_files/img/product_1.png?t=20220831" />
+			</div>
+			<div class="box_6_main_right">
+				<ul>
+					<li><span></span>COVID-19 Test Card</li>
+					<li><span></span>Anterior Nasal Swab</li>
+					<li><span></span>Pre-Filled Tube</li>
+					<li><span></span>Instruction for Use</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--box6-->
+	
+</div>
+
+<!-- footer start -->
+	<div class="box-container-fluid footer-wrapper" id="JumpSix">
+		<div class="box-container">
+			<!-- box-1 start -->
+			<div class="box-1">
+				<div class="footer-nav-box">
+					<ul>
+						
+						<li>
+							<a href="https://coretests.com/product/">Product Center</a>
+							<div class="navs">
+								
+								<a href="https://coretests.com/product/index_100000000146634.html">Fertility Test</a>
+								
+								<a href="https://coretests.com/product/index_100000010781517.html">Respiratory Infectious Diseases Test</a>
+								
+								<a href="https://coretests.com/product/index_100000010727761.html">Infectious Diseases Test</a>
+								
+								<a href="https://coretests.com/product/index_100000010762587.html">Sexual Transmitted Diseases Test</a>
+								
+								<a href="https://coretests.com/product/index_100000011176945.html">Cardiac Marker Test</a>
+								
+								<a href="https://coretests.com/product/index_100000011136474.html">Tumor MarkerTest</a>
+								
+								<a href="https://coretests.com/product/index_100000011128625.html">Drug of Abuse Test</a>
+								
+								<a href="https://coretests.com/product/index_100000011158267.html">Health Test</a>
+								
+								<a href="https://coretests.com/product/index_100000011167624.html">Blood Glucose Test</a>
+								
+							</div>
+						</li>
+						
+						<li>
+							<a href="https://coretests.com/news/">News</a>
+							<div class="navs">
+								
+								<a href="https://coretests.com/news/index.html">Company News</a>
+								
+								<a href="https://coretests.com/news/industry.html">Industry Information</a>
+								
+							</div>
+						</li>
+						
+						<li>
+							<a href="https://coretests.com/about/">About Us</a>
+							<div class="navs">
+								
+								<a href="https://coretests.com/about/index.html">About Us</a>
+								
+								<a href="https://coretests.com/about/honor.html">Honors and Certificates</a>
+								
+								<a href="https://coretests.com/about/message.html">Leave a message</a>
+								
+							</div>
+						</li>
+						
+						<li>
+							<a href="javascript:;">Contact Us</a>
+							<div class="desc">
+								Headquarters Address: 3333 Piedmont Rd NE #700, Atlanta GA, 30305<br>
+Production Address: NO.30,Area 9, Douda Avenue, Fangshan District, Beijing, 102433 China<br>
+Registered Address: Room 100,Building C,NO.29 Life Park Rd,Changping District,Beijing,102206 China<br>
+Contact Us: +86-10-69390616<br>
+Fax: +86-10-69390660<br>
+Email: info@coretests.com
+							</div>
+						</li>
+						
+					</ul>
+				</div>
+				<div class="other-box">
+					
+					<div class="title">Contact Us</div>
+					<div class="address">
+						Headquarters Address: 3333 Piedmont Rd NE #700, Atlanta GA, 30305<br>
+Production Address: NO.30,Area 9, Douda Avenue, Fangshan District, Beijing, 102433 China<br>
+Registered Address: Room 100,Building C,NO.29 Life Park Rd,Changping District,Beijing,102206 China<br>
+Contact Us: +86-10-69390616<br>
+Fax: +86-10-69390660<br>
+Email: info@coretests.com
+					</div>
+					
+				</div>
+			</div>
+			<!-- box-1 start -->
+			
+			<!-- box-2 start -->
+			<div class="box-2">
+
+                <div class="other">
+				    <div class="copyright">
+					    Copyright Coretests All rights reserved. <a href="http://beian.miit.gov.cn/" target="_blank">京ICP备案18005116-1号</a>
+				    </div>
+				    <div class="links">
+					    
+				    </div>
+                </div>
+
+
+                <div class="friendlink">
+					<div class="caption">Associated Website</div>
+					<div class="list">
+						
+						<a href="https://cordx.com/" target="_blank">CorDx, Inc.</a>
+						
+					</div>
+				</div>
+			</div>
+			<!-- box-2 end -->
+		</div>
+	</div>
+	<!-- footer end -->
+
+
+<script src="./info_files/hm.js"></script><script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?603748af8dcd18950bf24ebf7f11705b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<style>
+    #bsWXBox
+    {
+        box-sizing: unset;
+    }
+</style>
+
+<script type="text/javascript" src="./info_files/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="./info_files/jquery.waypoints.min.js"></script>
+<script type="text/javascript" src="./info_files/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript" src="./info_files/cascade.js"></script>
+<script type="text/javascript" src="./info_files/countUp.js"></script>
+<script type="text/javascript" src="./info_files/swiper-4.3.5.min.js"></script>
+<script type="text/javascript" src="./info_files/wow.min.js"></script>
+<script type="text/javascript" src="./info_files/common.js"></script>
+<script src="./info_files/layui.all.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="./info_files/jie.js"></script>
+<script type="text/javascript">
+	//锚链接跳转
+	function jump(val) {
+		document.getElementById(val).scrollIntoView();
+	};
+	$(function() {
+		//初始化swiper
+		var mySwiper = new Swiper('.swiper', {
+			autoplay: true,
+			speed: 500, //切换过渡速度
+			effect: 'coverflow',
+			loop: true,
+			slidesPerView: "auto",
+			centeredSlides: true, //设置slide居中
+			spaceBetween: 20,
+			coverflowEffect: {
+				rotate: 100, //slide做3d旋转时Y轴的旋转角度。默认50。
+				stretch: 0, //每个slide之间的拉伸值（距离），越大slide靠得越紧。 默认0。
+				depth: 1500, //slide的位置深度。值越大z轴距离越远，看起来越小。 默认100。
+				modifier: 0.5, //depth和rotate和stretch的倍率，相当于            depth*modifier、rotate*modifier、stretch*modifier，值越大这三个参数的效果越明显。默认1。
+				slideShadows: false, //开启slide阴影。默认 true。
+			},
+			pagination: {
+				el: '.box2_swiper-pagination',
+				clickable: true,
+				renderBullet: function (index, className) {
+				  return '<span class="' + className + '">' + (index + 1) + '</span>';
+				},
+			},
+		});
+		//打开pdf1
+		$('#pdfOne').click(function() {
+			window.open('https://coretests.com/QuickGuide.pdf');
+		});
+		//打开pdf2
+		$('#pdfTwo').click(function() {
+			window.open('https://coretests.com/Instruction%20for%20Use.pdf');
+		});
+		//打开pdf2
+		$('#pdfThree').click(function() {
+			window.open('https://coretests.com/Healthcare%20Provider%20Fact%20Sheet.pdf');
+		});
+		//点击打开
+		$(".ques_el").click(function () {
+			$(this).siblings().removeClass('quesActived').children('.ques_txt').slideUp();
+			$(this).toggleClass('quesActived').children('.ques_txt').slideToggle();
+		});
+	});
+</script>
+</body>
+</html>
