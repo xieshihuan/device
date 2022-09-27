@@ -627,7 +627,7 @@ class Product extends Base
             ->leftJoin('product_type pt','p.type_id = pt.id')
             ->field('p.id,p.cate_id,p.type_id,p.leixing,p.status,p.reason,pc.title as catename,pt.title as typename')
             ->where($where)
-            ->order('p.leixing desc,p.id desc')
+            ->order('p.status asc,p.leixing desc,p.id desc')
             ->select();
         foreach($list as $key => $val){
             //查询自己的申请记录
@@ -724,7 +724,7 @@ class Product extends Base
             ->leftJoin('users u','p.uid = u.id')
             ->field('p.id,p.cate_id,p.type_id,p.status,p.leixing,p.reason,pc.title as catename,pt.title as typename,u.username as username')
             ->where($where)
-            ->order('p.leixing desc,p.id desc')
+            ->order('p.status asc,p.leixing desc,p.id desc')
             ->select();
         foreach($list as $key => $val){
             //查询自己的申请记录
@@ -1535,7 +1535,7 @@ class Product extends Base
                 ->alias('pa')
                 ->leftJoin('product p','pa.product_id = p.id')
                 ->field('pa.id,pa.apply_content,pa.apply_reason,pa.status,pa.uid,pa.create_time,p.cate_id,p.type_id,p.zhandian_id')
-                ->order('pa.id ASC')
+                ->order('pa.status asc,pa.id ASC')
                 ->limit($a.','.$pageSize)
                 ->where($where)
                 ->select();
@@ -1544,7 +1544,7 @@ class Product extends Base
                 ->alias('pa')
                 ->leftJoin('product p','pa.product_id = p.id')
                 ->field('pa.id,pa.apply_content,pa.apply_reason,pa.status,pa.uid,pa.create_time,p.cate_id,p.type_id,p.zhandian_id')
-                ->order('pa.id ASC')
+                ->order('pa.status asc,pa.id ASC')
                 ->where($where)
                 ->count();
             

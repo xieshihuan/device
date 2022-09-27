@@ -126,7 +126,7 @@ class Product extends Base
                     ->leftJoin('product_cate cate','p.cate_id = cate.id')
                     ->leftJoin('product_type type','p.type_id = type.id')
                     ->field('p.*,cate.title as cate_name,type.title as type_name')
-                    ->order('p.create_time desc,p.id DESC')
+                    ->order('p.status asc,p.create_time desc,p.id DESC')
                     ->where($where)
                     ->where('p.uid','exp','In '.$uuid)
                     ->where('p.id','exp', 'In '.$itemid)
@@ -137,7 +137,7 @@ class Product extends Base
                     ->leftJoin('product_cate cate','p.cate_id = cate.id')
                     ->leftJoin('product_type type','p.type_id = type.id')
                     ->field('p.*,cate.title as cate_name,type.title as type_name')
-                    ->order('p.create_time desc,p.id DESC')
+                    ->order('p.status asc,p.create_time desc,p.id DESC')
                     ->where($where)
                     ->where('p.uid','exp','In '.$uuid)
                     ->select();
@@ -171,7 +171,7 @@ class Product extends Base
                     ->leftJoin('product_cate cate','p.cate_id = cate.id')
                     ->leftJoin('product_type type','p.type_id = type.id')
                     ->field('p.*,cate.title as cate_name,type.title as type_name')
-                    ->order('p.create_time desc,p.id DESC')
+                    ->order('p.status asc,p.create_time desc,p.id DESC')
                     ->where($where)
                     ->where('p.id','exp','In '.$itemid)
                     ->select();
@@ -181,7 +181,7 @@ class Product extends Base
                     ->leftJoin('product_cate cate', 'p.cate_id = cate.id')
                     ->leftJoin('product_type type', 'p.type_id = type.id')
                     ->field('p.*,cate.title as cate_name,type.title as type_name')
-                    ->order('p.create_time desc,p.id DESC')
+                    ->order('p.status asc,p.create_time desc,p.id DESC')
                     ->where($where)
                     ->select();
             }
@@ -378,7 +378,7 @@ class Product extends Base
                     ->alias('pa')
                     ->leftJoin('product p','pa.product_id = p.id')
                     ->field('pa.*,pa.create_time as add_time,pa.status as useless_status,p.type_id,p.cate_id,p.zhandian_uid,p.zhandian_id')
-                    ->order('add_time asc,pa.status asc')
+                    ->order('pa.status asc,add_time asc')
                     ->where($where)
                     ->where('p.uid','exp','In '.$uuid)
                     ->where('p.id','exp', 'In '.$itemid)
@@ -389,7 +389,7 @@ class Product extends Base
                     ->alias('pa')
                     ->leftJoin('product p','pa.product_id = p.id')
                     ->field('pa.*,pa.create_time as add_time,pa.status as useless_status,p.type_id,p.cate_id,p.zhandian_uid,p.zhandian_id')
-                    ->order('add_time asc,pa.status asc')
+                    ->order('pa.status asc,add_time asc')
                     ->where($where)
                     ->where('p.uid','exp','In '.$uuid)
                     ->select();
@@ -422,7 +422,7 @@ class Product extends Base
                     ->alias('pa')
                     ->leftJoin('product p','pa.product_id = p.id')
                     ->field('pa.*,pa.create_time as add_time,pa.status as useless_status,p.type_id,p.cate_id,p.zhandian_uid,p.zhandian_id')
-                    ->order('add_time asc,pa.status asc')
+                    ->order('pa.status asc,add_time asc')
                     ->where($where)
                     ->where('p.id','exp','In '.$itemid)
                     ->select();
@@ -432,7 +432,7 @@ class Product extends Base
                     ->alias('pa')
                     ->leftJoin('product p','pa.product_id = p.id')
                     ->field('pa.*,pa.create_time as add_time,pa.status as useless_status,p.type_id,p.cate_id,p.zhandian_uid,p.zhandian_id')
-                    ->order('add_time asc,pa.status asc')
+                    ->order('pa.status asc,add_time asc')
                     ->where($where)
                     ->select();
             }
@@ -454,7 +454,6 @@ class Product extends Base
                 
                 $list[$keys]['apply_content_list'] = explode("\n",$vals['apply_content']);
                
-                
         }
 
 
@@ -482,8 +481,8 @@ class Product extends Base
             $where['p.id'] = $id;
         }
         
-         //$where['p.uid'] = $this->admin_id;
-        //$painfo = Db::name('product_apply')->where('id',$id)->where('reply_uid',$this->admin_id)->find();
+         //$where['p.uid'] = $this->admin_id;  ->where('reply_uid',$this->admin_id)
+        
         $painfo = Db::name('product_apply')->where('id',$id)->find();
        
         if($painfo){

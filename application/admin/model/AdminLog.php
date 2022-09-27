@@ -20,7 +20,7 @@ class AdminLog extends Base {
     public static function record($params)
     {
         $route = Request::controller() . '/' . lcfirst(Request::action());
-
+        
         $allows = [
             'Ad/index',             //
             'Adminlog/indexs',      //
@@ -47,7 +47,16 @@ class AdminLog extends Base {
             'Test/index',
             'Tikus/index',
             'Tikus/is_kaohe',
-            
+            'Assess/index',
+            'Product/useless_detail',
+            'Product/useless_list',
+            'ProductCate/index',
+            'Product/useless_apply_list',
+            'ProductCate/index',
+            'Product/pindex',
+            'Spec/index',
+            'ProductType/index',
+            'Product/pdetail'
         ];
         if(!in_array($route, $allows)){
 
@@ -75,7 +84,7 @@ class AdminLog extends Base {
             if($content){
                 foreach ($content as $k => $v)
                 {
-                    if (is_string($v) && strlen($v) > 200 || stripos($k, 'password') !== false)
+                    if (is_string($v) && strlen($v) > 500 || stripos($k, 'password') !== false)
                     {
                         unset($content[$k]);
                     }
