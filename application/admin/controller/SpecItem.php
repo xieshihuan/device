@@ -53,12 +53,12 @@ class SpecItem extends Base
         $spec_id = Request::param('spec_id');
         $itemlist = Request::param('itemlist');
         $num = Db::name('product_relation')->where('spec_id',$spec_id)->count();
-        if($num > 0){
-            $rs_arr['status'] = 201;
-            $rs_arr['msg'] = '此参数禁止修改';
-            return json_encode($rs_arr,true);
-            exit;
-        }else{
+        // if($num > 0){
+        //     $rs_arr['status'] = 201;
+        //     $rs_arr['msg'] = '此参数禁止修改';
+        //     return json_encode($rs_arr,true);
+        //     exit;
+        // }else{
             //删除之前记录
             Db::name('spec_item')->where('spec_id',$spec_id)->delete();
 
@@ -79,7 +79,7 @@ class SpecItem extends Base
             $rs_arr['msg'] = '修改成功';
             return json_encode($rs_arr,true);
             exit;
-        }
+        //}
 
     }
 

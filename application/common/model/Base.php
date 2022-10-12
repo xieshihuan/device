@@ -39,7 +39,7 @@ class Base extends Model
     public function addPost($data){
         $result = self::allowField(true)->save($data);
         if ($result) {
-            return ['error' => 0, 'msg' => '添加成功'];
+            return ['error' => 0, 'msg' => '添加成功','id' => $result];
         } else {
             return ['error' => 1, 'msg' => '添加失败'];
         }

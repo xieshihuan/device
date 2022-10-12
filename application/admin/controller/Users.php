@@ -615,7 +615,7 @@ class Users extends Base
         
         $rules = Db::name('users')
             ->where('id',Request::param('id'))
-            ->value('rules');
+            ->value('ruless');
             
         $list['zrules'] = $zrules;
         $list['checkIds'] = $rules;

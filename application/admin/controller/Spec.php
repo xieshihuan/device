@@ -19,14 +19,14 @@ class Spec extends Base
     public function index(){
         //条件筛选
         $keyword = Request::param('keyword');
-        $type_id = Request::param('type_id');
+        $tiku_id = Request::param('tiku_id');
         //全局查询条件
         $where=[];
         if(!empty($keyword)){
             $where[]=['title', 'like', '%'.$keyword.'%'];
         }
-        if(!empty($type_id)){
-            $where[]=['type_id', '=', $type_id];
+        if(!empty($tiku_id)){
+            $where[]=['tiku_id', '=', $tiku_id];
         }
 
         $where[] = ['is_delete', '=' ,1];

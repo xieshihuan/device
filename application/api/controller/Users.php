@@ -181,7 +181,7 @@ class Users extends Base
         
         $wherec = [];
          
-        if($uinfo['group_id'] == 0){
+        if($uinfo['group_id'] == 0 || $uinfo['group_id'] == 6 || $uinfo['group_id'] == 7){
             $whra['uid'] = $this->user_id;
             $whra['leixing'] = 1;
             $clist = Db::name('cateuser')

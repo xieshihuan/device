@@ -66,7 +66,7 @@ class Product extends Base
             return json_encode($rs_arr,true);
             exit;
         }else {
-            $list = Db::name('product_type')->field('id,title as text')->where('catid',$catid)->where('is_delete',1)->order('id asc')->select();
+            $list = Db::name('product_type')->field('id,tiku_id,title as text')->where('catid',$catid)->where('is_delete',1)->order('id asc')->select();
             echo apireturn(200, 'success', $list);
             die;
         }
@@ -82,7 +82,7 @@ class Product extends Base
             return json_encode($rs_arr,true);
             exit;
         }else {
-            $list = Db::name('spec')->where('type_id',$type_id)->where('is_delete',1)->order('id asc')->select();
+            $list = Db::name('spec')->where('tiku_id',$type_id)->where('is_delete',1)->order('id asc')->select();
             foreach ($list as $key => $val){
                 if($val['leixing'] == 1){
                     $itemlist = Db::name('spec_item')->field('id,item')->where('spec_id',$val['id'])->where('is_delete',1)->order('id asc')->select();
@@ -139,6 +139,7 @@ class Product extends Base
         
 
         $data['uid'] = $this->user_id;
+        $data['zhandian_uid'] = $this->user_id;
         $product_id = Db::name('product')->insertGetId($data);
         if($product_id > 0){
 
@@ -344,8 +345,8 @@ class Product extends Base
             if($data['type_id'] != $pinfo['type_id']){
                 $dataz['product_id'] = $pinfo['id'];
                 $dataz['canshu'] = '设备类型';
-                $dataz['old'] = Db::name('product_type')->where('id',$pinfo['cate_id'])->value('title');
-                $dataz['new'] = Db::name('product_type')->where('id',$data['cate_id'])->value('title');
+                $dataz['old'] = Db::name('product_type')->where('id',$pinfo['type_id'])->value('title');
+                $dataz['new'] = Db::name('product_type')->where('id',$data['type_id'])->value('title');
                 $dataz['create_time'] = time();
                 Db::name('product_update')->insert($dataz);
             }
@@ -368,13 +369,13 @@ class Product extends Base
         }
         if(empty($data['is_new'])){
             $rs_arr['status'] = 201;
-            $rs_arr['msg'] = '请选择是否是设备';
+            $rs_arr['msg'] = '请选择是否是全新设备';
             return json_encode($rs_arr,true);
             exit;
         }else{
             if($data['is_new'] != $pinfo['is_new']){
                 $dataz['product_id'] = $pinfo['id'];
-                $dataz['canshu'] = '是否是';
+                $dataz['canshu'] = '是否全新设备';
                 if($pinfo['is_new'] == 1){
                     $old = '是';
                 }else{
@@ -400,8 +401,8 @@ class Product extends Base
             if($data['collect_time'] != $pinfo['collect_time']){
                 $dataz['product_id'] = $pinfo['id'];
                 $dataz['canshu'] = '领用日期';
-                $dataz['old'] = date('Y-m-d H:i:s',$pinfo['collect_time']);
-                $dataz['new'] = date('Y-m-d H:i:s',$data['collect_time']);
+                $dataz['old'] = date('Y-m-d',$pinfo['collect_time']);
+                $dataz['new'] = date('Y-m-d',$data['collect_time']);
                 $dataz['create_time'] = time();
                 Db::name('product_update')->insert($dataz);
             }
@@ -475,12 +476,26 @@ class Product extends Base
             exit;
         }else{
             if($data['uid'] != $pinfo['uid']){
+                
                 $dataz['product_id'] = $pinfo['id'];
                 $dataz['canshu'] = '资产负责人';
                 $dataz['old'] = Db::name('users')->where('id',$pinfo['uid'])->value('username');
                 $dataz['new'] = Db::name('users')->where('id',$data['uid'])->value('username');
                 $dataz['create_time'] = time();
                 Db::name('product_update')->insert($dataz);
+                
+                $adminname = Db::name('users')->where('id',$this->user_id)->value('username');
+                if($pinfo['leixing'] == 1){
+                    $zhuangtai = '使用';
+                }else{
+                    $zhuangtai = '管理';
+                }
+                //增加消息
+                $datam['uid'] = $pinfo['uid'];
+                $datam['content'] = $adminname.'将您'.$zhuangtai.'的 '.Db::name('product_cate')->where('id',$pinfo['cate_id'])->value('title').' '.Db::name('product_type')->where('id',$pinfo['type_id'])->value('title').' 转给他人';
+                $datam['status'] = 1;
+                $datam['create_time'] = date('Y-m-d H:i:s',time());
+                Db::name('message')->insert($datam);
             }
         }
         
@@ -497,9 +512,13 @@ class Product extends Base
             $list = json_decode($data['json'],true);
             if(count($list) > 0){
                 //添加参数
+                //Db::name('product_relation')->where('product_id',$pinfo['id'])->delete();
                 
+                $specids = '';
                 $result = '';
                 foreach ($list as $key => $val){
+                    
+                    $specids .= $val['id'].',';
                     
                     $datas['product_id'] = $pinfo['id'];
                     $datas['spec_id'] = $val['id'];
@@ -537,6 +556,19 @@ class Product extends Base
                             Db::name('product_relation')->where('product_id',$pinfo['id'])->where('spec_id',$val['id'])->update($upd);
                         }
                     }else{
+                        
+                        $dataupd['product_id'] = $pinfo['id'];
+                        $dataupd['canshu'] = $val['title'];
+                        if($val['leixing'] == 1){
+                            $dataupd['old'] = '新增';
+                            $dataupd['new'] = Db::name('spec_item')->where('id',$result)->value('item');
+                        }else{
+                            $dataupd['old'] = '新增';
+                            $dataupd['new'] = $result;
+                        }
+                        $dataupd['create_time'] = time();
+                        Db::name('product_update')->insert($dataupd);
+                        
                         //添加新参数
                         $datas['result'] = $result;
                         $datas['is_answer'] = $val['is_answer'];
@@ -544,6 +576,30 @@ class Product extends Base
                     }
                     
                 }
+                
+                
+                $whrd = [];
+                $specids = rtrim($specids,',');
+                $whrd[] = ['spec_id','not in',$specids];
+                $dlist = Db::name('product_relation')->where('product_id',$pinfo['id'])->where($whrd)->select();
+                
+                foreach($dlist as $key => $val){
+                    $dataupd['product_id'] = $val['product_id'];
+                    $dataupd['canshu'] = Db::name('spec')->where('id',$val['spec_id'])->value('title');
+                    $leixings = Db::name('spec')->where('id',$val['spec_id'])->value('leixing');
+                    if($leixings == 1){
+                        $dataupd['old'] = Db::name('spec_item')->where('id',$val['result'])->value('item');
+                        $dataupd['new'] = '已删除';
+                    }else{
+                        $dataupd['old'] = $val['result'];
+                        $dataupd['new'] = '已删除';
+                    }
+                    $dataupd['create_time'] = time();
+                    Db::name('product_update')->insert($dataupd);
+                    Db::name('product_relation')->where('id',$val['id'])->delete();
+                }
+                
+                
                 
                 //查询最后使用人
                 $pfinfo = Db::name('product_flow')->where('product_id',$pinfo['id'])->order('id desc')->find();
@@ -676,7 +732,18 @@ class Product extends Base
         if(!empty($zhandian_id)){
             $uinfo = Db::name('users')->where('id',$this->user_id)->find();
             if($uinfo['group_id'] == 1 || $uinfo['group_id'] == 2 || $uinfo['group_id'] == 3){
-                $where[] = ['p.zhandian_id','=',$zhandian_id];
+            
+                //查询当前站点及所属下级站点
+                $cate = Db::name('cate')->select();
+                $xz = getChildsId($cate,$zhandian_id);
+                
+                $itemz = '';
+                foreach($xz as $valxz){
+                    $itemz .= $valxz['id'].',';
+                }
+                $idxzs = $itemz.$zhandian_id;
+                $where[] = ['p.zhandian_id','in',$idxzs];
+            
             }else{
                 $ruless = explode(',',$uinfo['ruless']);
                
@@ -822,7 +889,13 @@ class Product extends Base
         $pinfo['item_list'] = $item_list;
         
         $pinfo['ctime'] = date("Y-m-d",$pinfo['collect_time']);
-
+        
+        $whereupd[] = ['product_id','=',$id];
+     
+        $pinfo['updnum'] = Db::name('product_update')
+            ->where($whereupd)
+            ->count();
+            
         $rs_arr['status'] = 200;
         $rs_arr['msg'] = 'success';
         $rs_arr['data'] = $pinfo;
@@ -1187,7 +1260,7 @@ class Product extends Base
                     $where[]=['u.id', 'in', $a];
                 }else{
                     $rs_arr['status'] = 201;
-                    $rs_arr['msg'] = '无权限';
+                    $rs_arr['msg'] = '非管理员';
                     return json_encode($rs_arr,true);
                     exit;
                 }
@@ -1303,7 +1376,7 @@ class Product extends Base
             ->leftJoin('users u','p.uid = u.id')
             ->leftJoin('cate c','p.zhandian_id = c.id')
             ->leftJoin('product_flow pf','p.id = pf.product_id')
-            ->field('p.id,p.status,p.uid,p.is_new,p.leixing,p.reason,p.collect_time,p.cate_id,p.type_id,p.zhandian_id,p.json,pc.title as catename,pt.title as typename,u.username as name,c.title as zhandian_name,pf.apply_status as apply_status,pf.apply_content as apply_content')
+            ->field('p.id,p.status,p.uid,p.is_new,p.leixing,p.reason,p.collect_time,p.cate_id,p.type_id,p.zhandian_id,p.json,pc.title as catename,pt.title as typename,u.username as name,c.title as zhandian_name,pf.apply_status as apply_status,pf.apply_content as apply_content,pt.tiku_id')
             ->where($where)
             ->find();
         
@@ -1356,6 +1429,14 @@ class Product extends Base
         $data['djscount'] = $djscount;
         $data['dbfcount'] = $dbfcount;
         
+        
+        //查询未读
+        $count = Db::name('message')->where('uid',$this->user_id)->where('status',1)->count();
+        $list = Db::name('message')->where('uid',$this->user_id)->order('create_time desc')->select();
+        
+        $data['wdcount'] = $count;
+        $data['message_list'] = $list;
+        
         $rs_arr['status'] = 200;
         $rs_arr['msg'] = 'success';
         $rs_arr['data'] = $data;
@@ -1379,8 +1460,7 @@ class Product extends Base
             $where[] = ['product_id','=',$id];
             $wherea[] = ['pa.product_id','=',$id];
         }
-
-
+        
         $list = Db::name('product_apply')
             ->field('DATE_FORMAT(FROM_UNIXTIME(create_time),"%Y-%m-%d") as deta_time')
             ->where($where)
@@ -1531,6 +1611,8 @@ class Product extends Base
             $a = $pageSize*($page-1);
         
             
+            $where[] = ['pa.reply_uid','=',$this->user_id];
+
             $list = Db::name('product_apply')
                 ->alias('pa')
                 ->leftJoin('product p','pa.product_id = p.id')
@@ -1657,7 +1739,14 @@ class Product extends Base
             $pinfo['useless_content'] = $painfo['apply_content'];
             $pinfo['useless_status'] = $painfo['status'];
             $pinfo['ctime'] = date("Y-m-d",$pinfo['collect_time']);
-    
+            
+            $whereupd[] = ['product_id','=',$id];
+     
+            $pinfo['updnum'] = Db::name('product_update')
+                ->where($whereupd)
+                ->count();
+                
+            
             $rs_arr['status'] = 200;
             $rs_arr['msg'] = 'success';
             $rs_arr['data'] = $pinfo;
@@ -1670,6 +1759,18 @@ class Product extends Base
             exit;
         }
         
+        
+    }
+    
+    public function message(){
+        $whr['uid'] = $this->user_id;
+        $whr['status'] = 1;
+        $data['status'] = 2;
+        Db::name('message')->where($whr)->update($data);
+        $rs_arr['status'] = 200;
+        $rs_arr['msg'] = 'success';
+        return json_encode($rs_arr,true);
+        exit;
         
     }
 }

@@ -41,7 +41,8 @@ class ProductType extends Base
         //调取列表
         $list = Db::name('product_type')->alias('pt')
             ->leftJoin('product_cate pc','pt.catid = pc.id')
-            ->field('pt.*,pc.title as one_name')
+            ->leftJoin('product_tiku t','pt.tiku_id = t.id')
+            ->field('pt.*,pc.title as one_name,t.title as tiku_name')
             ->order('sort ASC,id DESC')
             ->where($where)
             ->paginate($pageSize,false,['query' => request()->param()]);

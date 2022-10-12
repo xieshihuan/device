@@ -840,3 +840,47 @@ function sellist($ids,$val){
     }
 
 }
+
+//资质操作记录
+function aptitudelog($type_id,$zzid,$aptitude_type,$aptitude_content,$aptitude_uid){
+    
+    if($type_id == 1){
+        $where['rc.id'] = $zzid;
+        $info = Db::name('register_credential')
+            ->alias('rc')
+            ->leftJoin('company c','rc.name = c.id')
+            ->field('rc.bianhao,c.title as aptitude_name')
+            ->where($where)
+            ->find();
+        $data['aptitude_bianhao'] = $info['bianhao'];
+        $data['aptitude_name'] = $info['aptitude_name'];
+    }elseif($type_id == 2){
+        $where['b.id'] = $zzid;
+        $info = Db::name('brand')
+            ->alias('b')
+            ->leftJoin('company c','b.name = c.id')
+            ->field('b.bianhao,c.title as aptitude_name')
+            ->where($where)
+            ->find();
+        $data['aptitude_bianhao'] = $info['bianhao'];
+        $data['aptitude_name'] = $info['aptitude_name'];
+    }else{
+        $where['o.id'] = $zzid;
+        $info = Db::name('other')
+            ->alias('o')
+            ->leftJoin('company c','b.name = c.id')
+            ->field('o.title as bianhao,c.title as aptitude_name')
+            ->where($where)
+            ->find();
+        $data['aptitude_bianhao'] = $info['bianhao'];
+        $data['aptitude_name'] = $info['aptitude_name'];
+    }
+    $data['type_id'] = $type_id;
+    $data['zzid'] = $zzid;
+    $data['aptitude_type'] = $aptitude_type;
+    $data['aptitude_content'] = $aptitude_content;
+    $data['aptitude_uid'] = $aptitude_uid;
+    $data['aptitude_time'] = time();
+    Db::name('aptitude_update')->insert($data);
+    
+}

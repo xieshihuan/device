@@ -40,18 +40,11 @@ class Product extends Base
         if(!empty($status)){
             $where[]=['p.status', '=', $status];
         }
-        if(!empty($group)){
-            if($group == 1){
-                $where[]=['p.zhandian_uid', '=', 0];
-            }else{
-                $where[]=['p.zhandian_uid', '>', 0];
-            }
-        }
         
         $uinfo = Db::name('users')->where('id',$this->admin_id)->find();
         
         //超级管理员
-        if($uinfo['group_id'] == 1 || $uinfo['group_id'] == 2  || $uinfo['group_id'] == 3){
+        if($uinfo['group_id'] > 0){
             if(!empty($zhandian_id)){
                 
                 //查询当前站点及所属下级站点
@@ -76,15 +69,15 @@ class Product extends Base
                 
         if(isset($start)&&$start!=""&&isset($end)&&$end=="")
         {
-            $where[] = ['p.create_time','>=',$start];
+            $where[] = ['p.collect_time','>=',$start];
         }
         if(isset($end)&&$end!=""&&isset($start)&&$start=="")
         {
-            $where[] = ['p.create_time','<=',$end];
+            $where[] = ['p.collect_time','<=',$end];
         }
         if(isset($start)&&$start!=""&&isset($end)&&$end!="")
         {
-            $where[] = ['p.create_time','between',[$start,$end]];
+            $where[] = ['p.collect_time','between',[$start,$end]];
         }
 
         //显示数量
@@ -197,10 +190,15 @@ class Product extends Base
                 $list[$keys]['username'] = Db::name('users')->where('id',$vals['uid'])->value('username');
                 $list[$keys]['mobile'] = Db::name('users')->where('id',$vals['uid'])->value('mobile');
                 $list[$keys]['submit_username'] = Db::name('users')->where('id',$vals['zhandian_uid'])->value('username');
-                $list[$keys]['submit_group_id'] = Db::name('users')->where('id',$vals['zhandian_uid'])->value('group_id');
+                $group_id = Db::name('users')->where('id',$vals['zhandian_uid'])->value('group_id');
+                $list[$keys]['submit_group_id'] = $group_id;
+                $list[$keys]['submit_group_name'] = Db::name('auth_group')->where('id',$group_id)->value('title');
         }
-
-
+        
+        if($group < 99){
+            $list = seacharr_by_value($list,'submit_group_id',$group);
+        }
+        
         $data_rt['total'] = count($list);
         $list = array_slice($list,$b,$pageSize);
         $data_rt['data'] = $list;
@@ -380,7 +378,7 @@ class Product extends Base
                     ->field('pa.*,pa.create_time as add_time,pa.status as useless_status,p.type_id,p.cate_id,p.zhandian_uid,p.zhandian_id')
                     ->order('pa.status asc,add_time asc')
                     ->where($where)
-                    ->where('p.uid','exp','In '.$uuid)
+                    ->where('pa.uid','exp','In '.$uuid)
                     ->where('p.id','exp', 'In '.$itemid)
                     ->select();
             }else{
@@ -391,7 +389,7 @@ class Product extends Base
                     ->field('pa.*,pa.create_time as add_time,pa.status as useless_status,p.type_id,p.cate_id,p.zhandian_uid,p.zhandian_id')
                     ->order('pa.status asc,add_time asc')
                     ->where($where)
-                    ->where('p.uid','exp','In '.$uuid)
+                    ->where('pa.uid','exp','In '.$uuid)
                     ->select();
             }
         }else{
@@ -501,9 +499,11 @@ class Product extends Base
             
             if($pinfo['status'] == 1){
                 $pinfo['status_name'] = '在用';
-            }else{
+            }else if($pinfo['status'] == 2){
                 $pinfo['status_name'] = '闲置';
-            }  
+            }else{
+                $pinfo['status_name'] = '报废';
+            }
             if($pinfo['is_new'] == 1){
                 $pinfo['is_new_name'] = '全新';
             }else{
