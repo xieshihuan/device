@@ -136,7 +136,12 @@ class Product extends Base
             return json_encode($rs_arr,true);
             exit;
         }
-        
+        if(empty($data['status'])){
+            $data['status'] = 1;
+        }
+        if(empty($data['leixing'])){
+            $data['leixing'] = 1;
+        }
 
         $data['uid'] = $this->user_id;
         $data['zhandian_uid'] = $this->user_id;

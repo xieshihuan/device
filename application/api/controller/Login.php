@@ -172,9 +172,6 @@ class Login extends Controller
     }
  
  
-	
- 
-    
     //退出登录
     public function logout(){
         $access_token = Request::param('access_token');
@@ -199,7 +196,37 @@ class Login extends Controller
         
     }
 
-
+    //发送提醒短信
+    public function sendsms(){
+        
+        $time = date('Y-m-d',time());
+        $list = Db::name('remind')->where('remind_time',$time)->where('status',1)->select();
+        
+        foreach($list as $key => $val){
+            $phonelist = explode('^',$val['phone']);
+            foreach ($phonelist as $keys => $vals){
+                $res = saiyounotice($vals,$val['neirong']);
+                $ress = json_decode($res,true);
+                if($ress['status'] == 'success'){
+                    
+                    $data['status'] = 2;
+                    Db::name('remind')->where('id',$val['id'])->where('status',1)->update($data);
+                    
+                    echo '执行成功';
+                    die;
+                    
+                }else{
+                    
+                    $data['status'] = 3;
+                    Db::name('remind')->where('id',$val['id'])->where('status',1)->update($data);
+                    
+                    saiyounotice('18601366183',$val['id'].'消息提醒发送失败');
+                    saiyounotice('18331088335',$val['id'].'消息提醒发送失败');
+                }
+            }
+        }
+        
+    }
 
 
 }
