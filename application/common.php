@@ -583,66 +583,6 @@ function saiyouSms($phone,$code){
     
 }
 
-function saiyounotice($phone,$content){
-    
-    /*****************
-     * 加密请求 示例代码
-     ******************/
-    //appid参数 appkey参数在     短信-创建/管理AppID中获取
-    //手机号支持单个
-    //短信内容：签名+正文    详细规则查看短信-模板管理
-    $appid = '86216';                                                               //appid参数
-    $appkey = 'b605dab8ade5ffae0abbdb31b82acfb3';                                   //appkey参数
-    $to = $phone;                                                            //收信人 手机号码
-    $content = '【CU资质监测】'.$content;                                     //内容
-
-    //通过接口获取时间戳
-    $ch = curl_init();
-    curl_setopt_array($ch, array(
-        CURLOPT_URL            => 'https://api-v4.mysubmail.com/service/timestamp.json',
-        CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_POST           => 0,
-    ));
-    $output = curl_exec($ch);
-    curl_close($ch);
-    $output = json_decode($output, true);
-    $timestamp = $output['timestamp'];
-
-    $post_data = array(
-        "appid"         => $appid,
-        "to"            => $to,
-        "timestamp"     => $timestamp,
-        "sign_type"     => 'md5',
-        "sign_version"  => 2,
-        "content"       => $content,
-    );
-    //整理生成签名所需参数
-    $temp = $post_data;
-    unset($temp['content']);
-    ksort($temp);
-    reset($temp);
-    $tempStr = "";
-    foreach ($temp as $key => $value) {
-        $tempStr .= $key . "=" . $value . "&";
-    }
-    $tempStr = substr($tempStr, 0, -1);
-    //生成签名
-    $post_data['signature'] = md5($appid . $appkey . $tempStr . $appid . $appkey);
-
-    $ch = curl_init();
-    curl_setopt_array($ch, array(
-        CURLOPT_URL            => 'https://api-v4.mysubmail.com/sms/send.json',
-        CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_POST           => 1,
-        CURLOPT_POSTFIELDS     => $post_data,
-    ));
-    $output = curl_exec($ch);
-    curl_close($ch);
-
-    return $output;
-
-}
-
 /**
  * YzxSms 云之讯短信
  * @param $param 验证码
@@ -905,29 +845,35 @@ function sellist($ids,$val){
 function aptitudelog($type_id,$zzid,$aptitude_type,$aptitude_content,$aptitude_uid){
     
     if($type_id == 1){
-        $where['id'] = $zzid;
+        $where['rc.id'] = $zzid;
         $info = Db::name('register_credential')
-            ->field('bianhao,name')
+            ->alias('rc')
+            ->leftJoin('company c','rc.name = c.id')
+            ->field('rc.bianhao,c.title as aptitude_name')
             ->where($where)
             ->find();
         $data['aptitude_bianhao'] = $info['bianhao'];
-        $data['aptitude_name'] = $info['name'];
+        $data['aptitude_name'] = $info['aptitude_name'];
     }elseif($type_id == 2){
-        $where['id'] = $zzid;
+        $where['b.id'] = $zzid;
         $info = Db::name('brand')
-            ->field('bianhao,name')
+            ->alias('b')
+            ->leftJoin('company c','b.name = c.id')
+            ->field('b.bianhao,c.title as aptitude_name')
             ->where($where)
             ->find();
         $data['aptitude_bianhao'] = $info['bianhao'];
-        $data['aptitude_name'] = $info['name'];
+        $data['aptitude_name'] = $info['aptitude_name'];
     }else{
-        $where['id'] = $zzid;
+        $where['o.id'] = $zzid;
         $info = Db::name('other')
-            ->field('title,name')
+            ->alias('o')
+            ->leftJoin('company c','b.name = c.id')
+            ->field('o.title as bianhao,c.title as aptitude_name')
             ->where($where)
             ->find();
-        $data['aptitude_bianhao'] = $info['title'];
-        $data['aptitude_name'] = $info['name'];
+        $data['aptitude_bianhao'] = $info['bianhao'];
+        $data['aptitude_name'] = $info['aptitude_name'];
     }
     $data['type_id'] = $type_id;
     $data['zzid'] = $zzid;

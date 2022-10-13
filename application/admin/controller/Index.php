@@ -232,49 +232,7 @@ class Index extends Base
     		exit;
         }
     }
-    
-    //资质图片查询
-    public function detail(){
-        $id = Request::param('id');
-        $type = Request::param('type');
-        
-        if(!empty($id)){
-            $where[]=['id', '=', $id];
-        }else{
-            $rs_arr['status'] = 500;
-    		$rs_arr['msg'] = 'id不能为空';
-    		return json_encode($rs_arr,true);
-    		exit;
-        }
-        if($type == 1){
-            $ainfo = Db::name('register_credential')->where($where)->find();
-        }elseif($type == 2){
-            $ainfo = Db::name('brand')->where($where)->find();
-        }else{
-            $ainfo = Db::name('other')->where($where)->find();
-        }
-        
-        
-        if(!empty($ainfo['images'])){
-            $alist = explode(',',$ainfo['images']);
-            foreach ($alist as $key => $val){
-                $wheres['id'] = $val;
-                $alist[$key] = Db::name('img')->field('id,thumb')->where($wheres)->find();
-                $request = Request::instance();
-                $domain = $request->domain();
-                $alist[$key]['url'] = $domain.$alist[$key]['thumb'];
-            }
-            $ainfo['duotu'] = $alist;
-        }else{
-            $ainfo['duotu'] = array();
-        }
-        
-        $rs_arr['status'] = 200;
-        $rs_arr['msg'] = 'success';
-        $rs_arr['data'] = $ainfo;
-		return json_encode($rs_arr,true);
-		exit;
-    }   
+
 
     //wangEditor
     public function wangEditor(){
