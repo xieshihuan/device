@@ -21,45 +21,88 @@ use think\cache\driver\Redis;
 class Login extends Controller
 {
     
-    public function ceshi(){
-        $a= '1,3,13,14,26';
-        $alist = explode(',',$a);
-       
-        $alists = array();
-        foreach ($alist as $key => $val){
-            $alists[$key]['spec_itemid'] = $val;
-            $alists[$key]['spec_id'] = Db::name('spec_item')->where('id',$val)->value('spec_id');
-        }
+    public function ceshi20221017(){
         
-        $result= array();
-        foreach ($alists as $key => $info) {
-            $result[$info['spec_id']][] = $info;
-        }
-        
-        $b = '';
-        foreach($result as $keys => $vals){
-            
-            $c= '';
-            foreach($vals as $keyss => $valss){
-                
-                $c.=$valss['spec_itemid'].'||';
-                
-            }
-            $c = rtrim($c,'||');
-            
-            $b.=$keys.'_'.$c.'^';
-        }
-        
-        $b = rtrim($b,'^');
-        
-        echo $b;
-        die;
-        
-        print_r($result);
+        $list = Db::name('brand')->where('is_delete',1)->order('id asc')->select();
     
-        die;
-        
+        $zzid = '';
+        $endtime = '';
+        $reminderday = '';
+        foreach ($list as $key => $data) {
+            $zzid = $data['id'];
+            Db::name('remind')->where('zzid',$zzid)->where('status',1)->delete();
+            
+            //判断结束日期
+            if(!empty($data['end_time']) && $data['end_time'] != '0000-00-00'){
+                $endtime = $data['end_time'];
+            }else{
+                $endtime = $data['validity_time'];
+            }
+            //根据日期类型去判断天数
+            if($data['reminder_type'] == 1){
+                $reminderday = $data['reminder_time'];
+            }elseif($data['reminder_type'] == 2){
+                $reminderday = $data['reminder_time']*30;
+            }else{
+                $reminderday = $data['reminder_time']*365;
+            }
+            //判断频率是否合理
+            if($reminderday < $data['reminder_rate']){
+                $rs_arr['status'] = 201;
+        		$rs_arr['msg'] = '临期提醒频率不得大于过期时间';
+        		return json_encode($rs_arr,true);
+        		exit;
+            }
+            //计算提醒日期
+            $remind_time = strtotime($endtime)-($reminderday*86400);
+            $remind_day = date('Y-m-d',$remind_time);
+            $remind_rate = $data['reminder_rate']*86400;
+            $end_time = strtotime($endtime);
+            //循环添加提醒记录
+            while($remind_time < $end_time)
+            {
+                if($remind_time > time()){
+                    
+                    $snum = intval(($end_time - $remind_time)/86400);
+                    
+                    $ins['type_id'] = 2;
+                    $ins['bianhao'] = $data['bianhao'];
+                    $ins['zzid'] = 'brand'.$zzid;
+                    $ins['name'] = $data['name'];
+                    $ins['neirong'] = $data['name'].'-商标-'.$data['brand_name'].$data['bianhao'].'-剩余'.$snum.'天过期，请及时处理';
+                    $ins['remind_time'] = date('Y-m-d',$remind_time);
+                    $ins['remind_type'] = 1;
+                    $ins['phone'] = $data['exceed_phone'];
+                    $ins['create_time'] = time();
+                    $ins['update_time'] = time();
+                    
+                    Db::name('remind')->insert($ins);
+                }
+                
+                $remind_time = $remind_time + $remind_rate;
+            }
+            
+            //循环添加过期记录
+            for($i = 1;$i <= 3;$i++){
+                $remind_endtime = $end_time + ($i*$data['exceed_rate']*86400);
+                if($remind_endtime > time()){
+                    $ins['type_id'] = 2;
+                    $ins['bianhao'] = $data['bianhao'];
+                    $ins['zzid'] = 'brand'.$zzid;
+                    $ins['name'] = $data['name'];
+                    $ins['neirong'] = $data['name'].'-商标-'.$data['brand_name'].$data['bianhao'].'-已过期，请及时处理';
+                    $ins['remind_time'] = date('Y-m-d',$remind_endtime);
+                    $ins['remind_type'] = 2;
+                    $ins['phone'] = $data['exceed_phone'];
+                    $ins['create_time'] = time();
+                    $ins['update_time'] = time();
+                    
+                    Db::name('remind')->insert($ins);
+                }
+            }
+        }
     }
+    
     //获取城市列表
     public function get_country(){
         $list = Db::name('country')->select();

@@ -78,7 +78,7 @@ class Product extends Base
         $type_id = Request::param('type_id');
         if(empty($type_id)){
             $rs_arr['status'] = 201;
-            $rs_arr['msg'] = 'catid不存在';
+            $rs_arr['msg'] = 'typeid不存在';
             return json_encode($rs_arr,true);
             exit;
         }else {
@@ -130,13 +130,18 @@ class Product extends Base
             return json_encode($rs_arr,true);
             exit;
         }
-        if(empty($data['collect_time'])){
-            $rs_arr['status'] = 201;
-            $rs_arr['msg'] = '请选择领用日期';
-            return json_encode($rs_arr,true);
-            exit;
+        // if(empty($data['collect_time'])){
+        //     $rs_arr['status'] = 201;
+        //     $rs_arr['msg'] = '请选择领用日期';
+        //     return json_encode($rs_arr,true);
+        //     exit;
+        // }
+        if(empty($data['status'])){
+            $data['status'] = 1;
         }
-        
+        if(empty($data['leixing'])){
+            $data['leixing'] = 1;
+        }
 
         $data['uid'] = $this->user_id;
         $data['zhandian_uid'] = $this->user_id;
@@ -216,12 +221,12 @@ class Product extends Base
             return json_encode($rs_arr,true);
             exit;
         }
-        if(empty($data['collect_time'])){
-            $rs_arr['status'] = 201;
-            $rs_arr['msg'] = '请选择领用日期';
-            return json_encode($rs_arr,true);
-            exit;
-        }
+        // if(empty($data['collect_time'])){
+        //     $rs_arr['status'] = 201;
+        //     $rs_arr['msg'] = '请选择领用日期';
+        //     return json_encode($rs_arr,true);
+        //     exit;
+        // }
         if(empty($data['status'])){
             $rs_arr['status'] = 201;
             $rs_arr['msg'] = '请选择使用状态';
@@ -392,12 +397,12 @@ class Product extends Base
                 Db::name('product_update')->insert($dataz);
             }
         }
-        if(empty($data['collect_time'])){
-            $rs_arr['status'] = 201;
-            $rs_arr['msg'] = '请选择领用日期';
-            return json_encode($rs_arr,true);
-            exit;
-        }else{
+        // if(empty($data['collect_time'])){
+        //     $rs_arr['status'] = 201;
+        //     $rs_arr['msg'] = '请选择领用日期';
+        //     return json_encode($rs_arr,true);
+        //     exit;
+        // }else{
             if($data['collect_time'] != $pinfo['collect_time']){
                 $dataz['product_id'] = $pinfo['id'];
                 $dataz['canshu'] = '领用日期';
@@ -406,7 +411,7 @@ class Product extends Base
                 $dataz['create_time'] = time();
                 Db::name('product_update')->insert($dataz);
             }
-        }
+        // }
         if(empty($data['status'])){
             $rs_arr['status'] = 201;
             $rs_arr['msg'] = '请选择使用状态';
@@ -887,8 +892,12 @@ class Product extends Base
         }
 
         $pinfo['item_list'] = $item_list;
+        if(!empty($pinfo['collect_time'])){
+            $pinfo['ctime'] = date("Y-m-d",$pinfo['collect_time']);
+        }else{
+            $pinfo['ctime'] = '/';
+        }
         
-        $pinfo['ctime'] = date("Y-m-d",$pinfo['collect_time']);
         
         $whereupd[] = ['product_id','=',$id];
      
@@ -1396,7 +1405,28 @@ class Product extends Base
             $pinfo['leixing_name'] = '站点资产管理';
         }  
         
-        $pinfo['ctime'] = date("Y-m-d",$pinfo['collect_time']);
+        $whr2['product_id'] = $id;
+        $item_list = Db::name('product_relation')
+            ->alias('pr')
+            ->leftJoin('spec pc','pr.spec_id = pc.id')
+            ->leftJoin('spec_item pt','pr.result = pt.id')
+            ->field('pr.*,pc.title as spec_name,pc.leixing,pt.item as spec_item_name')
+            ->where($whr2)
+            ->order('pr.id asc')
+            ->select();
+        foreach ($item_list as $key => $val){
+            if($val['leixing'] == 2){
+                $item_list[$key]['spec_item_name'] = $val['result'];
+            }
+        }
+        
+        $pinfo['item_list'] = $item_list;
+        
+        if(!empty($pinfo['collect_time'])){
+            $pinfo['ctime'] = date("Y-m-d",$pinfo['collect_time']);
+        }else{
+            $pinfo['ctime'] = '/';
+        }
 
         $rs_arr['status'] = 200;
         $rs_arr['msg'] = 'success';
@@ -1738,7 +1768,14 @@ class Product extends Base
             $pinfo['useless_reason'] = $painfo['apply_reason'];
             $pinfo['useless_content'] = $painfo['apply_content'];
             $pinfo['useless_status'] = $painfo['status'];
-            $pinfo['ctime'] = date("Y-m-d",$pinfo['collect_time']);
+            
+            
+            if(!empty($pinfo['collect_time'])){
+                $pinfo['ctime'] = date("Y-m-d",$pinfo['collect_time']);
+            }else{
+                $pinfo['ctime'] = '/';
+            }
+
             
             $whereupd[] = ['product_id','=',$id];
      

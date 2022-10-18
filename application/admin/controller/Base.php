@@ -39,6 +39,7 @@ class Base extends Controller
                     'Index/upload',     //上传文件
                     'Index/uploads',     //上传多文件
                     'Index/uploads_del',     //上传多文件
+                    'Index/detail',     //上传多文件
                     'Index/wangEditor', //编辑器
                     'Index/ckeditor',   //编辑器
                     'Index/clear',      //清除缓存

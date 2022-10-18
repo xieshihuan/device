@@ -180,6 +180,67 @@ class Users extends Base
         
         
         $wherec = [];
+     
+        $whra['uid'] = $this->user_id;
+        $whra['leixing'] = 1;
+        $clist = Db::name('cateuser')
+        ->where($whra)
+        ->select();
+        foreach ($clist as $keys => $vals){
+            $group_name = self::select_name($vals['catid']);
+            $arr = explode('/',$group_name);
+            $arrs = array_reverse($arr);
+            $group_list = implode(' | ',$arrs);
+            $group_list = ltrim($group_list,' | ');
+            $clist[$keys]['group_name'] = $group_list;
+        } 
+        
+        $data['clist'] = $clist;
+        
+        
+        $data['username'] = $uinfo['username'];
+        $data['mibile'] = $uinfo['mobile'];
+        $data['group_id'] = $uinfo['group_id'];
+        
+        //我的资产汇总
+        $user_zichan_count = Db::name('product')->where('uid',$this->user_id)->count();
+        //我的资产详细
+        $user_zichan = Db::name('product_cate')->field('id,title')->order('id asc')->select();
+        foreach ($user_zichan as $key => $val){
+            $whr['cate_id'] = $val['id'];
+            $whr['uid'] = $this->user_id;
+            $user_zichan[$key]['number'] = Db::name('product')->where($whr)->count();
+        }
+        
+        
+        //站点资产汇总
+        $zhandian_zichan_count = Db::name('product')->where($wherec)->count();
+        //站点资产详细
+        $zhandian_zichan = Db::name('product_cate')->field('id,title')->order('id asc')->select();
+        foreach ($zhandian_zichan as $key => $val){
+            $whr_zhan['cate_id'] = $val['id'];
+            $zhandian_zichan[$key]['number'] = Db::name('product')->where($whr_zhan)->where($wherec)->count();
+        }
+        
+        $data['user_zichan_count'] = $user_zichan_count;
+        $data['user_zichan_list'] = $user_zichan;
+        $data['zhandian_zichan_count'] = $zhandian_zichan_count;
+        $data['zhandian_zichan'] = $zhandian_zichan;
+        
+        
+        $rs_arr['status'] = 200;
+		$rs_arr['msg'] = 'success';
+		$rs_arr['data'] = $data;
+		return json_encode($rs_arr,true);
+		exit;
+    }
+    
+    public function zichan_bf_20221018(){
+        $where['id'] = $this->user_id;
+        $uinfo = Db::name('users')->field('username,mobile,group_id,ruless')->where($where)->find();
+        
+        
+        $wherec = [];
          
         if($uinfo['group_id'] == 0 || $uinfo['group_id'] == 6 || $uinfo['group_id'] == 7){
             $whra['uid'] = $this->user_id;

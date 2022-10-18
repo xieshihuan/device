@@ -191,8 +191,13 @@ class Product extends Base
                 $list[$keys]['mobile'] = Db::name('users')->where('id',$vals['uid'])->value('mobile');
                 $list[$keys]['submit_username'] = Db::name('users')->where('id',$vals['zhandian_uid'])->value('username');
                 $group_id = Db::name('users')->where('id',$vals['zhandian_uid'])->value('group_id');
+                
                 $list[$keys]['submit_group_id'] = $group_id;
-                $list[$keys]['submit_group_name'] = Db::name('auth_group')->where('id',$group_id)->value('title');
+                if($group_id > 0){
+                    $list[$keys]['submit_group_name'] = Db::name('auth_group')->where('id',$group_id)->value('title');
+                }else{
+                    $list[$keys]['submit_group_name'] = '普通用户';
+                }
         }
         
         if($group < 99){
@@ -316,6 +321,8 @@ class Product extends Base
                 $idxzs = $itemz.$zhandian_id;
                 $where[] = ['p.zhandian_id','in',$idxzs];
                 
+            }else{
+                $where[] = ['p.zhandian_id','>',0];
             }
         }else{
             if(!empty($zhandian_id)){
