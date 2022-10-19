@@ -21,9 +21,9 @@ use think\cache\driver\Redis;
 class Login extends Controller
 {
     
-    public function ceshi20221017(){
+    public function ceshi_20221019(){
         
-        $list = Db::name('brand')->where('is_delete',1)->order('id asc')->select();
+        $list = Db::name('brand_world')->where('is_delete',1)->order('id asc')->select();
     
         $zzid = '';
         $endtime = '';
@@ -32,12 +32,8 @@ class Login extends Controller
             $zzid = $data['id'];
             Db::name('remind')->where('zzid',$zzid)->where('status',1)->delete();
             
-            //判断结束日期
-            if(!empty($data['end_time']) && $data['end_time'] != '0000-00-00'){
-                $endtime = $data['end_time'];
-            }else{
-                $endtime = $data['validity_time'];
-            }
+            $endtime = $data['validity_time'];
+        
             //根据日期类型去判断天数
             if($data['reminder_type'] == 1){
                 $reminderday = $data['reminder_time'];
@@ -69,7 +65,7 @@ class Login extends Controller
                     $ins['bianhao'] = $data['bianhao'];
                     $ins['zzid'] = 'brand'.$zzid;
                     $ins['name'] = $data['name'];
-                    $ins['neirong'] = $data['name'].'-商标-'.$data['brand_name'].$data['bianhao'].'-剩余'.$snum.'天过期，请及时处理';
+                    $ins['neirong'] = $data['name'].'-国际商标-'.$data['brand_name'].$data['bianhao'].'-剩余'.$snum.'天过期，请及时处理';
                     $ins['remind_time'] = date('Y-m-d',$remind_time);
                     $ins['remind_type'] = 1;
                     $ins['phone'] = $data['exceed_phone'];
@@ -90,7 +86,7 @@ class Login extends Controller
                     $ins['bianhao'] = $data['bianhao'];
                     $ins['zzid'] = 'brand'.$zzid;
                     $ins['name'] = $data['name'];
-                    $ins['neirong'] = $data['name'].'-商标-'.$data['brand_name'].$data['bianhao'].'-已过期，请及时处理';
+                    $ins['neirong'] = $data['name'].'-国际商标-'.$data['brand_name'].$data['bianhao'].'-已过期，请及时处理';
                     $ins['remind_time'] = date('Y-m-d',$remind_endtime);
                     $ins['remind_type'] = 2;
                     $ins['phone'] = $data['exceed_phone'];

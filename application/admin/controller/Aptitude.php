@@ -125,8 +125,6 @@ class Aptitude extends Base
         $status = Request::param('status');
         $start = Request::param('start');
         $end = Request::param('end');
-        $start = strtotime(date($start));
-        $end = strtotime(date($end));
         
         $where=[];
         if(!empty($keyword)){
@@ -152,15 +150,15 @@ class Aptitude extends Base
         }
         if(isset($start)&&$start!=""&&isset($end)&&$end=="")
         {
-            $where[] = ['aptitude_time','>=',$start];
+            $where[] = ['remind_time','>=',$start];
         }
         if(isset($end)&&$end!=""&&isset($start)&&$start=="")
         {
-            $where[] = ['aptitude_time','<=',$end];
+            $where[] = ['remind_time','<=',$end];
         }
         if(isset($start)&&$start!=""&&isset($end)&&$end!="")
         {
-            $where[] = ['aptitude_time','between',[$start,$end]];
+            $where[] = ['remind_time','between',[$start,$end]];
         }
         
         //显示数量
@@ -179,9 +177,11 @@ class Aptitude extends Base
             if($val['type_id'] == 1){
                 $list[$key]['type_name'] = '医疗器械注册证';
             }else if($val['type_id'] == 2){
-                $list[$key]['type_name'] = '商标';
-            }else{
+                $list[$key]['type_name'] = '国内商标';
+            }else if($val['type_id'] == 3){
                 $list[$key]['type_name'] = '其他资质';
+            }else{
+                $list[$key]['type_name'] = '国际商标';
             }
             if($val['remind_type']  == 1){
                 $list[$key]['remind_typename'] = '临期提醒';
@@ -283,7 +283,7 @@ class Aptitude extends Base
             ->alias('rc')
             ->leftJoin('users u','rc.principal = u.id')
             ->field('rc.*,u.username as username')
-            ->order('rc.end_time desc,rc.validity_time DESC')
+            ->order('rc.end_time asc,rc.validity_time asc')
             ->where($where)
             ->select();
             
@@ -1070,7 +1070,7 @@ class Aptitude extends Base
             ->alias('rc')
             ->leftJoin('users u','rc.principal = u.id')
             ->field('rc.*,u.username as username')
-            ->order('rc.end_time desc,rc.validity_time DESC')
+            ->order('rc.end_time asc,rc.validity_time asc')
             ->where($where)
             ->select();
             
@@ -1748,7 +1748,7 @@ class Aptitude extends Base
             ->alias('o')
             ->leftJoin('users u','o.principal = u.id')
             ->field('o.*,u.username as username')
-            ->order('o.end_time desc,o.validity_time DESC')
+            ->order('o.end_time asc,o.validity_time asc')
             ->where($where)
             ->select();
             
@@ -2422,7 +2422,7 @@ class Aptitude extends Base
             ->alias('rc')
             ->leftJoin('users u','rc.principal = u.id')
             ->field('rc.*,u.username as username')
-            ->order('rc.validity_time DESC')
+            ->order('rc.validity_time asc')
             ->where($where)
             ->select();
             

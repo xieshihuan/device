@@ -427,7 +427,11 @@ class Users extends Base
                         $datazz['update_time'] = time();
                         Db::name('auth_group_access')->insert($datazz);
                     }
-
+                    //退出登录
+                    $upd['access_token'] = '';
+                    $upd['token'] = '';
+                    Db::name('users')->where('id',$result['id'])->update($upd);
+                    
                     $rs_arr['status'] = 200;
         	        $rs_arr['msg'] = '修改成功';
             		return json_encode($rs_arr,true);
