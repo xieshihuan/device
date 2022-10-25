@@ -212,6 +212,40 @@ class Users extends Base
             $user_zichan[$key]['number'] = Db::name('product')->where($whr)->count();
         }
         
+        if(!empty($zhandian_id)){
+            if($uinfo['group_id'] == 1 || $uinfo['group_id'] == 2 || $uinfo['group_id'] == 3){
+            
+                //查询当前站点及所属下级站点
+                $cate = Db::name('cate')->select();
+                $xz = getChildsId($cate,$zhandian_id);
+                
+                $itemz = '';
+                foreach($xz as $valxz){
+                    $itemz .= $valxz['id'].',';
+                }
+                $idxzs = $itemz.$zhandian_id;
+                $wherec[] = ['zhandian_id','in',$idxzs];
+            
+            }else{
+                $ruless = explode(',',$uinfo['ruless']);
+               
+                if(in_array($zhandian_id,$ruless)){
+                    $wherec[] = ['zhandian_id','=',$zhandian_id];
+                }else{
+                    $rs_arr['status'] = 201;
+                    $rs_arr['msg'] = '站点id有误';
+                    return json_encode($rs_arr,true);
+                    exit;
+                }
+            }
+        }else{
+            if($uinfo['group_id'] == 1 || $uinfo['group_id'] == 2 || $uinfo['group_id'] == 3){
+                $wherec[] = ['zhandian_id','>',0];
+            }else{
+                $ruless = explode(',',$uinfo['ruless']);
+                $wherec[] = ['zhandian_id','in',$uinfo['ruless']];
+            }
+        }
         
         //站点资产汇总
         $zhandian_zichan_count = Db::name('product')->where($wherec)->count();

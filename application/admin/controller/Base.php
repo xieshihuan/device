@@ -64,6 +64,9 @@ class Base extends Controller
                     'SpecItem/addpost',
                     'Aptitude/company_list',
                     'Aptitude/user_list',
+                    'ProductCate/index',
+                    'ProductType/index',
+                    'Spec/index',
                 ];
         
                 //查找当前控制器和方法，控制器首字母大写，方法首字母小写 如：Index/index
@@ -74,10 +77,6 @@ class Base extends Controller
                     
                     if($admin['data']!=1){
                         //开始认证
-                        
-                        // echo $route.'-'.$admin['data'];
-                        // die;
-                        
                         $auth = new \Auth\Auth();
                         $result = $auth->check($route,$admin['data']);
                         if(!$result){

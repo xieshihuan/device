@@ -59,8 +59,8 @@ class SpecItem extends Base
         //     return json_encode($rs_arr,true);
         //     exit;
         // }else{
-            //删除之前记录
-            Db::name('spec_item')->where('spec_id',$spec_id)->delete();
+            //删除之前记录 20221025修改为不删除之前的记录
+            //Db::name('spec_item')->where('spec_id',$spec_id)->delete();
 
             $itemlist = explode('^',$itemlist);
             if(count($itemlist) == 0){
@@ -69,11 +69,17 @@ class SpecItem extends Base
                 return json_encode($rs_arr,true);
                 exit;
             }
-            //添加新纪录
+            
             foreach ($itemlist as $key => $val){
-                $dataadd['item'] = $val;
-                $dataadd['spec_id'] = $spec_id;
-                Db::name('spec_item')->insert($dataadd);
+                $whr['item'] = $val;
+                $whr['spec_id'] = $spec_id;
+                $num = Db::name('spec_item')->where($whr)->count();
+                if($num == 0){
+                    //添加新纪录
+                    $dataadd['item'] = $val;
+                    $dataadd['spec_id'] = $spec_id;
+                    Db::name('spec_item')->insert($dataadd);
+                }
             }
             $rs_arr['status'] = 200;
             $rs_arr['msg'] = '修改成功';
@@ -82,6 +88,5 @@ class SpecItem extends Base
         //}
 
     }
-
 
 }

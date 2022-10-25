@@ -43,10 +43,10 @@ class Product extends Base
         
         $uinfo = Db::name('users')->where('id',$this->admin_id)->find();
         
-        //超级管理员
-        if($uinfo['group_id'] > 0){
-            if(!empty($zhandian_id)){
-                
+        if(!empty($zhandian_id)){
+            
+            if($uinfo['group_id'] == 1 || $uinfo['group_id'] == 2 || $uinfo['group_id'] == 3){
+            
                 //查询当前站点及所属下级站点
                 $cate = Db::name('cate')->select();
                 $xz = getChildsId($cate,$zhandian_id);
@@ -57,16 +57,28 @@ class Product extends Base
                 }
                 $idxzs = $itemz.$zhandian_id;
                 $where[] = ['p.zhandian_id','in',$idxzs];
-                
+            
+            }else{
+                $ruless = explode(',',$uinfo['ruless']);
+               
+                if(in_array($zhandian_id,$ruless)){
+                    $where[] = ['p.zhandian_id','=',$zhandian_id];
+                }else{
+                    $rs_arr['status'] = 201;
+                    $rs_arr['msg'] = '站点id有误';
+                    return json_encode($rs_arr,true);
+                    exit;
+                }
             }
         }else{
-            if(!empty($zhandian_id)){
-                $where[]=['p.zhandian_id', '=', $zhandian_id];
+            if($uinfo['group_id'] == 1 || $uinfo['group_id'] == 2 || $uinfo['group_id'] == 3){
+                $where[] = ['p.zhandian_id','>',0];
             }else{
-                $where[]=['p.zhandian_id', 'in', $uinfo['ruless']];
+                $ruless = explode(',',$uinfo['ruless']);
+                $where[] = ['p.zhandian_id','in',$uinfo['ruless']];
             }
         }
-                
+          
         if(isset($start)&&$start!=""&&isset($end)&&$end=="")
         {
             $where[] = ['p.collect_time','>=',$start];
@@ -253,10 +265,11 @@ class Product extends Base
                 ->alias('pr')
                 ->leftJoin('spec pc','pr.spec_id = pc.id')
                 ->leftJoin('spec_item pt','pr.result = pt.id')
-                ->field('pr.*,pc.title as spec_name,pt.item as spec_item_name')
+                ->field('pr.*,pc.title as spec_name,pc.leixing as leixing,pt.item as spec_item_name')
                 ->where($where)
                 ->order('pr.id asc')
                 ->select();
+                 
         //查询修改记录
         $updlist = Db::name('product_update')
                 ->where($wheres)
@@ -644,4 +657,81 @@ class Product extends Base
         return json_encode($rs_arr,true);
         exit;
     }
+    
+    
+     //删除
+    public function delPost(){
+        
+        $id = Request::param('id');
+        
+        if(empty($id)){
+            $rs_arr['status'] = 201;
+            $rs_arr['msg'] = '请选择产品';
+            return json_encode($rs_arr,true);
+            exit;
+        }
+        
+        $info = Db::name('product')->where('id',$id)->find();
+        
+        if($info){
+            
+            //添加删除记录
+            $data['cate_id'] = $info['cate_id'];
+            $data['type_id'] = $info['type_id'];
+            $data['uid'] = $info['uid'];
+            $data['zhandian_uid'] = $info['zhandian_uid'];
+            $data['zhandian_id'] = $info['zhandian_id'];
+            $data['json'] = $info['json'];
+            $data['status'] = $info['status'];
+            $data['reason'] = $info['reason'];
+            $data['leixing'] = $info['leixing'];
+            $data['is_lock'] = $info['is_lock'];
+            $data['is_new'] = $info['is_new'];
+            $data['collect_time'] = $info['collect_time'];
+            $data['remark'] = $info['remark'];
+            $data['delete_uid'] = $this->admin_id;
+            $data['create_time'] = $info['create_time'];
+            $data['update_time'] = $info['update_time'];
+            $data['delete_time'] = time();
+            $data['useless_time'] = $info['useless_time'];
+            
+            $ins = Db::name('product_delete')->insert($data);
+            if($ins){
+                 //删除修改记录
+                Db::name('product_update')->where('product_id',$id)->delete();
+                //删除流转记录
+                Db::name('product_flow')->where('product_id',$id)->delete();
+                //删除操作记录
+                Db::name('product_apply')->where('product_id',$id)->delete();
+                //删除关联记录
+                Db::name('product_relation')->where('product_id',$id)->delete();
+                //增加消息
+                $adminname = Db::name('users')->where('id',$this->admin_id)->value('username');
+                $datam['uid'] = $info['uid'];
+                $datam['content'] = $adminname.'将您使用的 '.Db::name('product_cate')->where('id',$info['cate_id'])->value('title').' '.Db::name('product_type')->where('id',$info['type_id'])->value('title').' 删除';
+                $datam['status'] = 1;
+                $datam['create_time'] = date('Y-m-d H:i:s',time());
+                Db::name('message')->insert($datam);
+                //删除设备
+                Db::name('product')->where('id',$id)->delete();
+                
+                $rs_arr['status'] = 200;
+                $rs_arr['msg'] = 'success';
+                return json_encode($rs_arr,true);
+                exit;
+                
+            }else{
+                $rs_arr['status'] = 201;
+                $rs_arr['msg'] = 'faild';
+                return json_encode($rs_arr,true);
+                exit;
+            }
+        }else{
+            $rs_arr['status'] = 201;
+            $rs_arr['msg'] = 'not found';
+            return json_encode($rs_arr,true);
+            exit;
+        }
+    }
+    
 }

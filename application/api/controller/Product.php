@@ -17,7 +17,7 @@ class Product extends Base
 
     //获取产品分类
     public function catelist(){
-        $list = Db::name('product_cate')->field('id,title as text')->order('id asc')->where('is_delete',1)->select();
+        $list = Db::name('product_cate')->field('id,title as text')->order('id asc')->where('is_delete',1)->where('status',1)->select();
         
         // $lists = array();
         // $a = '';
@@ -52,13 +52,11 @@ class Product extends Base
         $rs_arr['data'] = $list;
         return json_encode($rs_arr,true);
         exit;
-        
-        
     }
 
     //获取产品分类
     public function typelist(){
-        Db::transaction(function () {
+        
         $catid = Request::param('catid');
         if(empty($catid)){
             $rs_arr['status'] = 201;
@@ -67,10 +65,14 @@ class Product extends Base
             exit;
         }else {
             $list = Db::name('product_type')->field('id,tiku_id,title as text')->where('catid',$catid)->where('is_delete',1)->order('id asc')->select();
-            echo apireturn(200, 'success', $list);
-            die;
+         
+            $rs_arr['status'] = 200;
+            $rs_arr['msg'] = 'success';
+            $rs_arr['data'] = $list;
+            return json_encode($rs_arr,true);
+            exit;
         }
-    });
+ 
     }
 
     //获取产品参数
@@ -85,7 +87,7 @@ class Product extends Base
             $list = Db::name('spec')->where('tiku_id',$type_id)->where('is_delete',1)->order('id asc')->select();
             foreach ($list as $key => $val){
                 if($val['leixing'] == 1){
-                    $itemlist = Db::name('spec_item')->field('id,item')->where('spec_id',$val['id'])->where('is_delete',1)->order('id asc')->select();
+                    $itemlist = Db::name('spec_item')->field('id,item')->where('spec_id',$val['id'])->where('is_delete',1)->order('sort asc,id asc')->select();
                     foreach ($itemlist as $keys => $vals){
                         $itemlist[$keys]['is_checked'] = 0;
                     }
@@ -130,15 +132,19 @@ class Product extends Base
             return json_encode($rs_arr,true);
             exit;
         }
+        if(empty($data['status'])){
+            $rs_arr['status'] = 201;
+            $rs_arr['msg'] = '请选择使用状态';
+            return json_encode($rs_arr,true);
+            exit;
+        }
         // if(empty($data['collect_time'])){
         //     $rs_arr['status'] = 201;
         //     $rs_arr['msg'] = '请选择领用日期';
         //     return json_encode($rs_arr,true);
         //     exit;
         // }
-        if(empty($data['status'])){
-            $data['status'] = 1;
-        }
+        
         if(empty($data['leixing'])){
             $data['leixing'] = 1;
         }
@@ -504,6 +510,15 @@ class Product extends Base
             }
         }
         
+        if($data['remark'] != $pinfo['remark']){
+            $dataz['product_id'] = $pinfo['id'];
+            $dataz['canshu'] = '设备存放地点';
+            $dataz['old'] = $pinfo['remark'];
+            $dataz['new'] = $data['remark'];
+            $dataz['create_time'] = time();
+            Db::name('product_update')->insert($dataz);
+        }
+            
         $data['update_time'] = time();
         $m = new M();
         $result = $m->editPost($data);
@@ -711,6 +726,15 @@ class Product extends Base
         $list1 = seacharr_by_value($list,'apply_status',0);
         $list2 = seacharr_by_value($list,'apply_status',1);
         
+        
+        $zycount = seacharr_by_value($list2,'status',1);
+        $xzcount = seacharr_by_value($list2,'status',2);
+        $bfcount = seacharr_by_value($list2,'status',3);
+        
+        $data_rt['zycount'] = count($zycount);
+        $data_rt['xzcount'] = count($xzcount);
+        $data_rt['bfcount'] = count($bfcount);
+        
         $list1 = array_slice($list1,0,1000);
         $data_rt['djs_data'] = $list1;
         $data_rt['total'] = count($list2);
@@ -810,6 +834,14 @@ class Product extends Base
                 ->order('pr.id asc')
                 ->select();
         }
+        
+        $zycount = seacharr_by_value($list,'status',1);
+        $xzcount = seacharr_by_value($list,'status',2);
+        $bfcount = seacharr_by_value($list,'status',3);
+        
+        $data_rt['zycount'] = count($zycount);
+        $data_rt['xzcount'] = count($xzcount);
+        $data_rt['bfcount'] = count($bfcount);
 
         $data_rt['total'] = count($list);
         $list = array_slice($list,$b,$pageSize);
@@ -843,7 +875,7 @@ class Product extends Base
             ->leftJoin('product_type pt','p.type_id = pt.id')
             ->leftJoin('users u','p.uid = u.id')
             ->leftJoin('cate c','p.zhandian_id = c.id')
-            ->field('p.id,p.status,p.is_new,p.leixing,p.reason,p.collect_time,p.cate_id,p.type_id,pc.title as catename,pt.title as typename,u.username as name,c.title as zhandian_name')
+            ->field('p.id,p.status,p.is_new,p.leixing,p.reason,p.collect_time,p.cate_id,p.type_id,p.remark,pc.title as catename,pt.title as typename,u.username as name,c.title as zhandian_name')
             ->where($where)
             ->find();
             
@@ -1145,8 +1177,7 @@ class Product extends Base
     
     //闲置处理方式
     public function useless_type(){
-        $arr = array(array('id'=>1,'text'=>'卖废品'),array('id'=>2,'text'=>'其他'));
-            
+        $arr = array(array('id'=>1,'text'=>'卖废品'),array('id'=>2,'text'=>'拆机'),array('id'=>3,'text'=>'其他'));
         $rs_arr['status'] = 200;
         $rs_arr['msg'] = 'success';
         $rs_arr['data'] = $arr;
@@ -1385,9 +1416,34 @@ class Product extends Base
             ->leftJoin('users u','p.uid = u.id')
             ->leftJoin('cate c','p.zhandian_id = c.id')
             ->leftJoin('product_flow pf','p.id = pf.product_id')
-            ->field('p.id,p.status,p.uid,p.is_new,p.leixing,p.reason,p.collect_time,p.cate_id,p.type_id,p.zhandian_id,p.json,pc.title as catename,pt.title as typename,u.username as name,c.title as zhandian_name,pf.apply_status as apply_status,pf.apply_content as apply_content,pt.tiku_id')
+            ->field('p.id,p.status,p.uid,p.is_new,p.leixing,p.reason,p.collect_time,p.cate_id,p.type_id,p.zhandian_id,p.json,p.remark,pc.title as catename,pt.title as typename,u.username as name,c.title as zhandian_name,pf.apply_status as apply_status,pf.apply_content as apply_content,pt.tiku_id')
             ->where($where)
             ->find();
+        
+        $pinfo['zhandian_ids'] = Db::name('cate')->where('id',$pinfo['zhandian_id'])->value('parentid');
+        
+        //获取题目开始
+        $list = Db::name('spec')->where('tiku_id',$pinfo['tiku_id'])->where('is_delete',1)->order('id asc')->select();
+        foreach ($list as $key => $val){
+            if($val['leixing'] == 1){
+                $itemlist = Db::name('spec_item')->field('id,item')->where('spec_id',$val['id'])->where('is_delete',1)->order('sort asc,id asc')->select();
+                foreach ($itemlist as $keys => $vals){
+                    $xz = Db::name('product_relation')->where('spec_id',$val['id'])->where('product_id',$id)->value('result');
+                    if($vals['id'] == $xz){
+                        $itemlist[$keys]['is_checked'] = 1;
+                    }else{
+                        $itemlist[$keys]['is_checked'] = 0;
+                    }
+                }
+                $list[$key]['item'] = $itemlist;
+            }else{
+                $list[$key]['item'] = Db::name('product_relation')->where('spec_id',$val['id'])->where('product_id',$id)->value('result');
+            }
+            $list[$key]['is_answer'] = 1;
+        }
+        
+        $pinfo['json'] = json_encode($list);
+        //获取题目结束
         
         if($pinfo['status'] == 1){
             $pinfo['status_name'] = '在用';
@@ -1777,7 +1833,7 @@ class Product extends Base
             }
 
             
-            $whereupd[] = ['product_id','=',$id];
+            $whereupd[] = ['product_id','=',$painfo['product_id']];
      
             $pinfo['updnum'] = Db::name('product_update')
                 ->where($whereupd)

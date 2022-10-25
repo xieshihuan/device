@@ -212,13 +212,14 @@ class Login extends Controller
                     $data['status'] = 2;
                     Db::name('remind')->where('id',$val['id'])->where('status',1)->update($data);
                     
-                    echo '执行成功';
-                    die;
+                    echo $val['id'].'执行成功';
                     
                 }else{
                     
                     $data['status'] = 3;
                     Db::name('remind')->where('id',$val['id'])->where('status',1)->update($data);
+                    
+                    echo $val['id'].'发送失败';
                     
                     saiyounotice('18601366183',$val['id'].'消息提醒发送失败');
                     saiyounotice('18331088335',$val['id'].'消息提醒发送失败');

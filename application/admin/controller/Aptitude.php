@@ -117,7 +117,7 @@ class Aptitude extends Base
     
     }
     
-    //获取操作记录
+    //获取短信记录
     public function sms_log(){
         $keyword = Request::param('keyword');
         $type_id = Request::param('type_id');
@@ -1010,7 +1010,8 @@ class Aptitude extends Base
     public function brand_list(){
 
         //条件筛选
-        $keyword = Request::param('keyword');
+        $bianhao = Request::param('bianhao');
+        $brand_name = Request::param('brand_name');
         $name = Request::param('name');
         $datetype = Request::param('datetype');
         $start = Request::param('start');
@@ -1024,8 +1025,14 @@ class Aptitude extends Base
         //全局查询条件
         $where=[];
 
-        if(!empty($keyword)){
-            $where[]=['rc.bianhao|rc.principal_name|rc.brand_name', 'like', '%'.$keyword.'%'];
+        // if(!empty($keyword)){
+        //     $where[]=['rc.bianhao|rc.principal_name|rc.brand_name', 'like', '%'.$keyword.'%'];
+        // }
+        if(!empty($bianhao)){
+            $where[]=['rc.bianhao', 'like', '%'.$bianhao.'%'];
+        }
+        if(!empty($brand_name)){
+            $where[]=['rc.brand_name', 'like', '%'.$brand_name.'%'];
         }
         if(!empty($name)){
             $where[]=['rc.name', 'like', '%'.$name.'%'];
@@ -1708,7 +1715,10 @@ class Aptitude extends Base
     public function other_list(){
 
         //条件筛选
-        $keyword = Request::param('keyword');
+        $name = Request::param('name');
+        $title = Request::param('title');
+        $issued_name = Request::param('issued_name');
+        $related = Request::param('related');
         $datetype = Request::param('datetype');
         $start = Request::param('start');
         $end = Request::param('end');
@@ -1717,9 +1727,19 @@ class Aptitude extends Base
         //全局查询条件
         $where=[];
 
-        if(!empty($keyword)){
-            $where[]=['o.name|o.title|o.issued_name|o.related', 'like', '%'.$keyword.'%'];
+        if(!empty($name)){
+            $where[]=['o.name', 'like', '%'.$name.'%'];
         }
+        if(!empty($title)){
+            $where[]=['o.title', 'like', '%'.$title.'%'];
+        }
+        if(!empty($issued_name)){
+            $where[]=['o.issued_name', 'like', '%'.$issued_name.'%'];
+        }
+        if(!empty($related)){
+            $where[]=['o.related', 'like', '%'.$related.'%'];
+        }
+        
         if(!empty($datetype)){
             if(isset($start)&&$start!=""&&isset($end)&&$end=="")
             {
@@ -2362,7 +2382,9 @@ class Aptitude extends Base
     public function brand_world_list(){
 
         //条件筛选
-        $keyword = Request::param('keyword');
+        $bianhao = Request::param('bianhao');
+        $brand_name = Request::param('brand_name');
+        $bianhao = Request::param('bianhao');
         $name = Request::param('name');
         $datetype = Request::param('datetype');
         $start = Request::param('start');
@@ -2376,9 +2398,15 @@ class Aptitude extends Base
         //全局查询条件
         $where=[];
 
-        if(!empty($keyword)){
-            $where[]=['rc.bianhao|rc.principal_name|rc.brand_name', 'like', '%'.$keyword.'%'];
+        if(!empty($bianhao)){
+            $where[]=['rc.bianhao|rc.apply_number', 'like', '%'.$bianhao.'%'];
         }
+        if(!empty($brand_name)){
+            $where[]=['rc.brand_name', 'like', '%'.$brand_name.'%'];
+        }
+        // if(!empty($keyword)){
+        //     $where[]=['rc.bianhao|rc.principal_name|rc.brand_name', 'like', '%'.$keyword.'%'];
+        // }
         if(!empty($name)){
             $where[]=['rc.name', 'like', '%'.$name.'%'];
         }

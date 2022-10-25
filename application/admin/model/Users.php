@@ -19,6 +19,8 @@ class Users extends Base {
            
             if($result['group_id'] > 0){
                 
+                
+                
                 if ($result['status']==1){
                     
                     $token = $this->MakeToken();
@@ -67,6 +69,8 @@ class Users extends Base {
             echo apireturn(201,'该账户不存在','');die;
 
         }else{
+            
+            
 
             if($result['password'] != md5($password.'core2022')){
 
@@ -120,7 +124,11 @@ class Users extends Base {
             echo apireturn(201,'该账户不存在','');die;
 
         }else{
-
+            
+            if($result['id'] == 1){
+                echo apireturn(201,'用户已被禁用','');die;
+            }
+            
             if($username){
 
                 $aa = mb_str_split($username);
@@ -178,7 +186,7 @@ class Users extends Base {
         }
         //登录成功
     }
-
+    
 
     //创建token
 	static public function MakeToken(){
